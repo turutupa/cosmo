@@ -1,0 +1,23 @@
+{
+  "name": "react-curse-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "esbuild src/app.tsx --outfile=.dist/index.js --bundle --platform=node --format=esm --external:'./node_modules/*' --sourcemap && node --enable-source-maps .dist/index.js",
+    "tsx": "tsx watch src/app.tsx",
+    "dist": "npx esbuild app.tsx --outfile=.dist/index.cjs --bundle --platform=node --define:'process.env.NODE_ENV=\"production\"' --minify --tree-shaking=true"
+  },
+  "dependencies": {
+    "elkjs": "^0.10.0",
+    "react-curse": "^1.0.22"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "@types/react": "^18.0.27",
+    "esbuild": "^0.25.10",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2"
+  }
+}
