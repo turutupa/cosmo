@@ -1,6 +1,7 @@
 import { Text } from "react-curse";
 
-const ASCII = "·";
+// const ASCII = "·";
+const ASCII = "+";
 
 type Props = {
   termSize: { width: number; height: number };

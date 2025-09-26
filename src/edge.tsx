@@ -1,10 +1,9 @@
 import React from "react";
-import { Text, useChildrenSize, useSize } from "react-curse";
+import { Text, useSize } from "react-curse";
+import { DEFAULT_HIGHLIGHT_COLOR } from "./constants";
 import { DEFAULT_NODE_WIDTH } from "./node";
 import { TCoordinate, TNode } from "./types";
 import { getPath } from "./utils";
-
-const TEXT = "█";
 
 type Props = {
   id: string;
@@ -16,11 +15,6 @@ type Props = {
 
 const Edge: React.FC<Props> = ({ id, source, target, cursor, isFocused }) => {
   const { width: termWidth, height: termHeight } = useSize();
-
-  // source node width + padding
-  const { width: sw } = useChildrenSize(source.value + 4);
-  // target node width + padding
-  const { width: tw } = useChildrenSize(target.value + 4);
 
   // source coordianate (center of node)
   const sc: TCoordinate = {
@@ -52,7 +46,7 @@ const Edge: React.FC<Props> = ({ id, source, target, cursor, isFocused }) => {
             key={`edge-${id}-idx-${index}`}
             x={position.x - cursor.x}
             y={position.y - cursor.y}
-            color={isFocused ? "Yellow" : "#6d6d6d"}
+            color={isFocused ? DEFAULT_HIGHLIGHT_COLOR : "#6d6d6d"}
           >
             {char}
           </Text>

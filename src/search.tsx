@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Input, ListTable, Text, useInput, useSize } from "react-curse";
+import { Block, Input, ListTable, Text, useInput, useSize } from "react-curse";
+import { DEFAULT_HIGHLIGHT_COLOR } from "./constants";
 import Graph from "./graph";
 import { TNode } from "./types";
 
@@ -26,6 +27,7 @@ const Search: React.FC<Props> = ({ graph, showSearch, setShowSearch }) => {
     }
   }, [showSearch]);
 
+  // component width and position calculations
   const availableWidth = Math.max(0, width - SIDE_PADDING * 2);
   const componentWidth = Math.min(MAX_COMPONENT_WIDTH, availableWidth);
   const containerX = Math.max(
@@ -38,7 +40,8 @@ const Search: React.FC<Props> = ({ graph, showSearch, setShowSearch }) => {
   const columnCount = head.length;
   const columnWidth = Math.max(1, Math.floor(componentWidth / columnCount));
 
-  const items = searchResults.map((node) => [
+  // table items from search results
+  const items: string[][] = searchResults.map((node) => [
     node.id,
     node.value.trimStart().trimEnd(),
   ]);
@@ -72,39 +75,54 @@ const Search: React.FC<Props> = ({ graph, showSearch, setShowSearch }) => {
   // handle focus switching between input and results
   useInput(
     (input: string) => {
-      // Handle arrow down or tab
-      if (
-        input === "\t" || // Tab
-        input === "\x0e" || // Ctrl + N
-        input === "\x0a" // Ctrl + J
-      ) {
-        setSearchIsFocused(false);
-      } else if (
-        input === "\x1b[Z" || // Shift + Tab
-        input === "\x10" || // Ctrl + P
-        input === "\x0b" // Ctrl + K
-      ) {
-        setSearchIsFocused(true);
-      } else if (input === "\x1b") {
-        // Escape
+      // Escape closes search
+      if (input === "\x1b") {
         setShowSearch(false);
+        return;
+      }
+
+      // Ctrl+J / Ctrl+N / Arrow Down : move down results while staying in input
+      if (input === "\x0a" || input === "\x0e" || input === "\x1b[B") {
+        setFocusedResultIndex((prev) =>
+          Math.min(searchResults.length - 1, prev + 1)
+        );
+        setSearchIsFocused(true);
+        return;
+      }
+
+      // Ctrl+K / Ctrl+P / Arrow Up : move up results while staying in input
+      if (input === "\x0b" || input === "\x10" || input === "\x1b[A") {
+        setFocusedResultIndex((prev) => Math.max(0, prev - 1));
+        setSearchIsFocused(true);
+        return;
+      }
+
+      // Tab moves focus to the table
+      if (input === "\t") {
+        setSearchIsFocused(false);
+        return;
+      }
+
+      // Shift+Tab returns focus to input
+      if (input === "\x1b[Z") {
+        setSearchIsFocused(true);
+        return;
       }
     },
-    [searchIsFocused, setShowSearch]
+    [searchResults.length, setShowSearch]
   );
 
   if (!showSearch) {
     return <></>;
   }
 
+  const baseY = Math.floor((height - 10) / 2);
+  const tableHeight = Math.min(16, Math.max(0, height - 12)); // rows incl. header
+  const statusY = baseY + 1 + tableHeight; // one below table
+
   return (
     <>
-      <Text
-        absolute
-        x={containerX}
-        y={Math.floor((height - 10) / 2)}
-        background="Black"
-      >
+      <Text absolute x={containerX} y={baseY} background="Black">
         {/* render text input */}
         <Input
           onCancel={() => setShowSearch(false)}
@@ -112,7 +130,7 @@ const Search: React.FC<Props> = ({ graph, showSearch, setShowSearch }) => {
           onSubmit={onSubmit}
           background="#404040"
           height={1}
-          width={componentWidth} // changed from fixed 15
+          width={componentWidth}
           focus={searchIsFocused}
         />
       </Text>
@@ -121,9 +139,9 @@ const Search: React.FC<Props> = ({ graph, showSearch, setShowSearch }) => {
       <Text
         absolute
         x={containerX}
-        y={Math.floor((height - 10) / 2) + 1}
+        y={baseY + 1}
         background={"BrightBlack"}
-        height={Math.min(15, Math.max(0, height - 12))}
+        height={tableHeight}
         width={componentWidth}
       >
         <ListTable
@@ -131,7 +149,7 @@ const Search: React.FC<Props> = ({ graph, showSearch, setShowSearch }) => {
           onChange={onListTableChange}
           focus={!searchIsFocused}
           head={head}
-          data={items}
+          data={items.slice(0, 15)}
           initialPos={{
             x: 0,
             y: focusedResultIndex,
@@ -153,7 +171,7 @@ const Search: React.FC<Props> = ({ graph, showSearch, setShowSearch }) => {
             item.map((text, key) => (
               <Text
                 key={key}
-                background={y === index ? "Green" : undefined}
+                background={y === index ? DEFAULT_HIGHLIGHT_COLOR : undefined}
                 color={y === index ? "Black" : undefined}
                 width={columnWidth}
               >
@@ -163,6 +181,21 @@ const Search: React.FC<Props> = ({ graph, showSearch, setShowSearch }) => {
           }
           width={componentWidth}
         />
+      </Text>
+
+      {/* status / help line */}
+      <Text
+        absolute
+        x={containerX}
+        y={statusY}
+        width={componentWidth}
+        height={1}
+        background="#101010"
+        color="#f2f2f2"
+      >
+        <Block align="center" width={componentWidth}>
+          ↑/↓ or ctrl+n/ctrl+p | Enter to select | Esc close
+        </Block>
       </Text>
     </>
   );

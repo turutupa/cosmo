@@ -299,7 +299,7 @@ export default class Graph {
       ];
       for (const c of candidates) {
         if (typeof c === "string") {
-          const trimmed = c.trim();
+          const trimmed = c.trimStart().trimEnd();
           if (trimmed) out.push(trimmed);
         }
       }
