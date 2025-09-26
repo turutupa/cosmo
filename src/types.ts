@@ -1,10 +1,3 @@
-export type TImportDto = {
-  nodes: TNode[];
-  edges: TEdge[];
-  nodeWidth?: number;
-  nodeHeight?: number;
-};
-
 export type TNode = {
   id: string;
   value: string;
@@ -21,4 +14,19 @@ export type TEdge = {
 export type TCoordinate = {
   x: number;
   y: number;
+};
+
+export type TSearchResult = {
+  exact: TNode[];
+  sliced: {
+    node: TNode;
+    field: string;
+    index: number;
+  }[];
+  fuzzy: {
+    node: TNode;
+    field: string;
+    distance: number;
+  }[];
+  all: TNode[];
 };

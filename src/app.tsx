@@ -3,16 +3,17 @@ import ReactCurse, { useSize } from "react-curse";
 import Graph from "./graph";
 import { edges, nodes } from "./mock/graph";
 import Renderer from "./renderer";
-import { TImportDto } from "./types";
+import { TEdge, TNode } from "./types";
 
 type Props = {
-  importDto: TImportDto;
+  nodes: TNode[];
+  edges: TEdge[];
+  nodeWidth?: number;
+  nodeHeight?: number;
 };
 
-const App: React.FC<Props> = ({ importDto }) => {
-  const { nodes, edges } = importDto;
+const App: React.FC<Props> = ({ nodes, edges, nodeWidth, nodeHeight }) => {
   const [graph, setGraph] = useState<Graph | null>(null);
-
   const { width, height } = useSize();
 
   // initialize graph on first graph / edges provided
@@ -37,7 +38,11 @@ const App: React.FC<Props> = ({ importDto }) => {
     return <></>;
   }
 
+  if (width < 1 || height < 1) {
+    return <></>;
+  }
+
   return <Renderer graph={graph} />;
 };
 
-ReactCurse.render(<App importDto={{ nodes, edges }} />);
+ReactCurse.render(<App nodes={nodes} edges={edges} />);
