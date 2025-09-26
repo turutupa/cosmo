@@ -1,9 +1,12 @@
-import { TNode } from "../types";
+import { TEdge, TNode } from "../types";
 
 export const nodes: TNode[] = [
   { id: "n1", value: "Parent" },
   { id: "n2", value: "Child 1" },
-  { id: "n3", value: "Child 2 - here" },
+  {
+    id: "n3",
+    value: "Child 2 - here- this is a very long text so beg your pardon",
+  },
   { id: "n4", value: "Random value 1" },
   { id: "n5", value: "Random value 2" },
   { id: "n6", value: " roaark" },
@@ -29,7 +32,7 @@ export const nodes: TNode[] = [
   { id: "n26", value: "Side C2" },
 ];
 
-export const edges = [
+export const edges: TEdge[] = [
   { id: "c1", source: "n1", target: "n2" },
   { id: "c2", source: "n1", target: "n3" },
   { id: "c3", source: "n3", target: "n4" },

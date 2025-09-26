@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import ReactCurse, { useSize } from "react-curse";
 import Graph from "./graph";
-import { edges, nodes } from "./mock/graph";
 import Renderer from "./renderer";
 import { TEdge, TNode } from "./types";
+
+import { edges, nodes } from "./mock/graph";
 
 type Props = {
   nodes: TNode[];

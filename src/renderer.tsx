@@ -1,5 +1,6 @@
-import React, { useMemo, useState } from "react";
-import ReactCurse, { Frame, Text, useInput } from "react-curse";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import ReactCurse, { Frame, Text, useInput, useSize } from "react-curse";
+import Cursor from "./cursor";
 import Edge from "./edge";
 import Graph from "./graph";
 import Node from "./node";
@@ -15,35 +16,26 @@ type Props = {
   nodeWidth?: number;
 };
 
-const Renderer: React.FC<Props> = ({ graph, nodeWidth = 10 }) => {
+const Renderer: React.FC<Props> = ({ graph, nodeWidth }) => {
+  // init hooks
   const [counter, setCounter] = useState(0);
   const [showSearch, setShowSearch] = useState(false);
 
+  const { width: termW, height: termH } = useSize();
+
+  // initial fit to view
+  useEffect(() => {
+    graph.fitView();
+    setCounter((prev) => prev + 1);
+  }, []);
+
+  useEffect(() => {
+    graph.setTermSize(termW, termH);
+  }, [termW, termH]);
+
+  // status line info
   const nodeCount = graph.nodes.length || 0;
   const edgeCount = graph.edges.length || 0;
-
-  const Nodes = (): JSX.Element[] => {
-    return graph.nodes.map((node, i) => (
-      <Node
-        {...node}
-        nodeWidth={nodeWidth}
-        key={`node-key-${i}`}
-        cursor={graph.cursor}
-      />
-    ));
-  };
-
-  const Edges = (): JSX.Element[] => {
-    return graph.edges.map((edge, i) => (
-      <Edge
-        {...edge}
-        key={`edge-key-${i}`}
-        source={graph.getElement(edge.source) as TNode}
-        target={graph.getElement(edge.target) as TNode}
-        cursor={graph.cursor}
-      />
-    ));
-  };
 
   // handle user input
   useInput(
@@ -77,8 +69,41 @@ const Renderer: React.FC<Props> = ({ graph, nodeWidth = 10 }) => {
       }
       setCounter((prev) => prev + 1);
     },
-    [showSearch]
+    [showSearch, graph]
   );
+
+  // render all nodes
+  const Nodes = useCallback((): JSX.Element[] => {
+    const focusedNode = graph.getFocusedNode();
+    return graph.nodes.map((node, i) => (
+      <Node
+        {...node}
+        key={`node-key-${i}`}
+        cursor={graph.cursor}
+        nodeWidth={nodeWidth}
+        termSize={{ width: termW, height: termH }}
+        isFocused={focusedNode?.id === node.id}
+      />
+    ));
+  }, [graph, graph.cursor, nodeWidth, termW, termH]);
+
+  // render all edges
+  const Edges = useCallback((): JSX.Element[] => {
+    const focusedNode = graph.getFocusedNode();
+    return graph.edges.map((edge, i) => (
+      <Edge
+        {...edge}
+        key={`edge-key-${i}`}
+        source={graph.getElement(edge.source) as TNode}
+        target={graph.getElement(edge.target) as TNode}
+        cursor={graph.cursor}
+        isFocused={
+          !!focusedNode &&
+          (focusedNode.id === edge.source || focusedNode.id === edge.target)
+        }
+      />
+    ));
+  }, [graph]);
 
   // status line with node/edge count and help
   const statusLine = useMemo(() => {
@@ -96,6 +121,9 @@ const Renderer: React.FC<Props> = ({ graph, nodeWidth = 10 }) => {
 
   return (
     <>
+      {/* render user cursor */}
+      <Cursor termSize={graph.termSize} />
+
       {/* render nodes && edges */}
       <Text key={counter}>
         <Edges />
@@ -106,7 +134,11 @@ const Renderer: React.FC<Props> = ({ graph, nodeWidth = 10 }) => {
       {statusLine}
 
       {/* search "modal" */}
-      {showSearch && <Search graph={graph} setShowSearch={setShowSearch} />}
+      <Search
+        graph={graph}
+        showSearch={showSearch}
+        setShowSearch={setShowSearch}
+      />
     </>
   );
 };

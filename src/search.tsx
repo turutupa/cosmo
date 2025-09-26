@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Input, ListTable, Text, useInput, useSize } from "react-curse";
 import Graph from "./graph";
 import { TNode } from "./types";
@@ -9,15 +9,22 @@ const SIDE_PADDING = 1; // one cell each side when terminal is narrow
 
 type Props = {
   graph: Graph;
+  showSearch: boolean;
   setShowSearch: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const Search: React.FC<Props> = ({ graph, setShowSearch }) => {
+const Search: React.FC<Props> = ({ graph, showSearch, setShowSearch }) => {
   const [searchResults, setSearchResults] = useState<TNode[]>([]);
   const [searchIsFocused, setSearchIsFocused] = useState(true);
   const [focusedResultIndex, setFocusedResultIndex] = useState(0);
-
   const { width, height } = useSize();
+
+  // on search opened, focus input
+  useEffect(() => {
+    if (showSearch) {
+      setSearchIsFocused(true);
+    }
+  }, [showSearch]);
 
   const availableWidth = Math.max(0, width - SIDE_PADDING * 2);
   const componentWidth = Math.min(MAX_COMPONENT_WIDTH, availableWidth);
@@ -78,14 +85,26 @@ const Search: React.FC<Props> = ({ graph, setShowSearch }) => {
         input === "\x0b" // Ctrl + K
       ) {
         setSearchIsFocused(true);
+      } else if (input === "\x1b") {
+        // Escape
+        setShowSearch(false);
       }
     },
-    [searchIsFocused]
+    [searchIsFocused, setShowSearch]
   );
+
+  if (!showSearch) {
+    return <></>;
+  }
 
   return (
     <>
-      <Text absolute x={containerX} y={(height - 10) / 2} background="Black">
+      <Text
+        absolute
+        x={containerX}
+        y={Math.floor((height - 10) / 2)}
+        background="Black"
+      >
         {/* render text input */}
         <Input
           onCancel={() => setShowSearch(false)}
@@ -102,7 +121,7 @@ const Search: React.FC<Props> = ({ graph, setShowSearch }) => {
       <Text
         absolute
         x={containerX}
-        y={(height - 10) / 2 + 1}
+        y={Math.floor((height - 10) / 2) + 1}
         background={"BrightBlack"}
         height={Math.min(15, Math.max(0, height - 12))}
         width={componentWidth}
@@ -113,13 +132,23 @@ const Search: React.FC<Props> = ({ graph, setShowSearch }) => {
           focus={!searchIsFocused}
           head={head}
           data={items}
+          initialPos={{
+            x: 0,
+            y: focusedResultIndex,
+            xo: 0,
+            yo: 0,
+            x1: 0,
+            x2: 0,
+          }}
+          // table headers
           renderHead={({ item, index, y, x }) =>
             item.map((i, key) => (
-              <Text key={key} width={columnWidth}>
+              <Text key={key} width={columnWidth} background="#202020" bold>
                 {i}
               </Text>
             ))
           }
+          // table rows
           renderItem={({ item, y, index }) =>
             item.map((text, key) => (
               <Text

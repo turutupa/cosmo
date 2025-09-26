@@ -1,4 +1,5 @@
 import ELK from "elkjs/lib/elk.bundled.js";
+import { DEFAULT_NODE_WIDTH, FRAME_HEIGHT } from "./node";
 import { TCoordinate, TEdge, TNode } from "./types";
 
 type Props = {
@@ -10,7 +11,7 @@ type Props = {
 };
 
 const defaultProps: Pick<Props, "nodeWidth" | "renderNodeId"> = {
-  nodeWidth: 10,
+  nodeWidth: DEFAULT_NODE_WIDTH,
   renderNodeId: true,
 };
 
@@ -92,7 +93,7 @@ export default class Graph {
 
   private async autolayout() {
     // approx node dimensions
-    const nodeWidth = 10;
+    const nodeWidth = this.props.nodeWidth;
     const nodeHeight = 6;
 
     // create elk graph
@@ -147,8 +148,6 @@ export default class Graph {
         edge.path = [];
       }
     }
-
-    this.fitView();
   }
 
   // Center viewport on:
@@ -159,9 +158,10 @@ export default class Graph {
   public fitView(focusId?: string) {
     const termW = this.props.termSize.width;
     const termH = this.props.termSize.height;
+
     // used for adjusting manually x and y axis of centered node
-    const paddingX = 6;
-    const paddingY = 8;
+    const paddingX = 8;
+    const paddingY = 16;
 
     const hasPos = (
       n: TNode | undefined | null
@@ -173,11 +173,14 @@ export default class Graph {
 
     // 1. Explicit focus node
     if (focusId) {
-      const focusNode = this.props.nodes.find((n) => n.id === focusId);
+      const focusNode = this.getElement(focusId) as TNode;
       if (hasPos(focusNode)) {
         this.pos = {
-          x: focusNode.position.x - termW / 2 + paddingX,
-          y: focusNode.position.y - termH / 2 + paddingY,
+          x:
+            focusNode.position.x -
+            Math.floor(termW / 2) +
+            Math.floor(this.nodeWidth / 2),
+          y: focusNode.position.y - Math.floor(termH / 2),
         };
         return;
       }
@@ -219,8 +222,8 @@ export default class Graph {
 
     if (hasPos(startNode)) {
       this.pos = {
-        x: startNode.position.x - termW / 2 + paddingX,
-        y: startNode.position.y - termH / 2 + paddingY,
+        x: startNode.position.x - Math.floor(termW / 2) + paddingX,
+        y: startNode.position.y - Math.floor(termH / 2) + paddingY,
       };
       return;
     }
@@ -424,5 +427,31 @@ export default class Graph {
       [prev, curr] = [curr, prev];
     }
     return prev[b.length];
+  }
+
+  public getFocusedNode(): TNode | null {
+    const { width: termWidth, height: termHeight } = this.termSize;
+    const centerX = Math.floor(termWidth / 2);
+    const centerY = Math.floor(termHeight / 2);
+
+    let focused: TNode | null = null;
+
+    for (const node of this.props.nodes) {
+      if (!node.position) continue;
+      const relativeX = node.position.x - this.cursor.x;
+      const relativeY = node.position.y - this.cursor.y;
+
+      const inside =
+        centerX >= relativeX &&
+        centerX <= relativeX + this.nodeWidth + 2 &&
+        centerY >= relativeY - 2 &&
+        centerY <= relativeY + FRAME_HEIGHT - 2;
+
+      if (inside) {
+        focused = node;
+        break; // first matching node
+      }
+    }
+    return focused;
   }
 }

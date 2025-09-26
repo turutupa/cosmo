@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, useChildrenSize, useSize } from "react-curse";
+import { DEFAULT_NODE_WIDTH } from "./node";
 import { TCoordinate, TNode } from "./types";
 import { getPath } from "./utils";
 
@@ -10,9 +11,10 @@ type Props = {
   source: TNode;
   target: TNode;
   cursor: TCoordinate;
+  isFocused?: boolean;
 };
 
-const Edge: React.FC<Props> = ({ id, source, target, cursor }) => {
+const Edge: React.FC<Props> = ({ id, source, target, cursor, isFocused }) => {
   const { width: termWidth, height: termHeight } = useSize();
 
   // source node width + padding
@@ -22,12 +24,12 @@ const Edge: React.FC<Props> = ({ id, source, target, cursor }) => {
 
   // source coordianate (center of node)
   const sc: TCoordinate = {
-    x: (source.position?.x || 0) + Math.ceil(sw / 2),
+    x: (source.position?.x || 0) + Math.ceil(DEFAULT_NODE_WIDTH / 2),
     y: (source.position?.y || 0) + 1,
   };
   // target coordianate (center of node)
   const tc: TCoordinate = {
-    x: (target.position?.x || 0) + Math.ceil(tw / 2),
+    x: (target.position?.x || 0) + Math.ceil(DEFAULT_NODE_WIDTH / 2),
     y: (target.position?.y || 0) + 1,
   };
 
@@ -47,10 +49,10 @@ const Edge: React.FC<Props> = ({ id, source, target, cursor }) => {
         .map(({ position, char }, index) => (
           <Text
             absolute
-            key={index}
+            key={`edge-${id}-idx-${index}`}
             x={position.x - cursor.x}
             y={position.y - cursor.y}
-            color="White"
+            color={isFocused ? "Yellow" : "#6d6d6d"}
           >
             {char}
           </Text>
