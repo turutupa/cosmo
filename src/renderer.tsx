@@ -4,6 +4,7 @@ import About from "./about";
 import { TScreen } from "./constants";
 import Cursor from "./cursor";
 import Edge from "./edge";
+import Files from "./files";
 import Graph from "./graph";
 import Keybindings from "./keybindings";
 import Menu from "./menu";
@@ -133,16 +134,24 @@ const Renderer: React.FC<Props> = ({ graph, nodeWidth }) => {
         edgeCount={graph?.edges?.length || 0}
       />
 
-      {/* search "modal" */}
+      {/* search */}
       <Search
         graph={graph}
         currentScreen={currentScreen}
         onScreenChange={onScreenChange}
       />
 
-      {/* menu "modal" */}
+      {/* menu */}
       {(currentScreen === "optionsMenu" || currentScreen === "openingMenu") && (
         <Menu onScreenChange={onScreenChange} isOpeningMenu={false} />
+      )}
+
+      {/* open file  */}
+      {currentScreen === "openFile" && (
+        <Files
+          onSelect={function (filePath: string): void {}}
+          onScreenChange={onScreenChange}
+        />
       )}
 
       {/* keybindings */}

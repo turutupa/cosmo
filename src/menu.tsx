@@ -105,6 +105,8 @@ const Menu: React.FC<Props> = ({ isOpeningMenu, onScreenChange }) => {
       onScreenChange("keybindings");
     } else if (input === "a") {
       onScreenChange("about");
+    } else if (input === "o") {
+      onScreenChange("openFile");
     }
   }, []);
 
@@ -112,6 +114,7 @@ const Menu: React.FC<Props> = ({ isOpeningMenu, onScreenChange }) => {
     menuOptions[y].title === "Quit" && ReactCurse.exit();
     menuOptions[y].title === "Keybindings" && onScreenChange("keybindings");
     menuOptions[y].title === "About" && onScreenChange("about");
+    menuOptions[y].title === "Open file" && onScreenChange("openFile");
   };
 
   return (
