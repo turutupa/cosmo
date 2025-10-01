@@ -45,7 +45,10 @@ const About: React.FC<Props> = ({ onScreenChange }) => {
 
   return (
     <Text absolute x={startX} y={startY} background="Black">
+      {/* render frame */}
       {frame}
+
+      {/* render banner */}
       <Banner
         color="Green"
         absolute
@@ -54,10 +57,12 @@ const About: React.FC<Props> = ({ onScreenChange }) => {
       >
         COSMO
       </Banner>
+
+      {/* render about text */}
       {aboutLines.map((line, i) => {
         const key = `about-line-${i}`;
         const x = contentStartX + contentPadding;
-        const y = listY + i;
+        const y = listY + i + 1;
         const trimmed = line.trimStart();
 
         // handle special line
@@ -80,6 +85,8 @@ const About: React.FC<Props> = ({ onScreenChange }) => {
           </Text>
         );
       })}
+
+      {/* render escape to exit */}
       <Text
         absolute
         x={contentStartX + contentPadding + 22}

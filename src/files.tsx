@@ -27,6 +27,7 @@ const Files: React.FC<Props> = ({ onSelect, onScreenChange, startDir }) => {
   const [currentPath, setCurrentPath] = useState(initial);
   const [entries, setEntries] = useState<TEntry[]>([]);
 
+  // load dirs
   const loadDir = useCallback((dir: string) => {
     let stats: fs.Stats | undefined;
     try {
@@ -40,6 +41,7 @@ const Files: React.FC<Props> = ({ onSelect, onScreenChange, startDir }) => {
     try {
       dirents = fs.readdirSync(dir, { withFileTypes: true });
     } catch {
+      onScreenChange("");
       return;
     }
 
