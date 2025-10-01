@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Block, Input, ListTable, Text, useInput, useSize } from "react-curse";
-import { DEFAULT_HIGHLIGHT_COLOR } from "./constants";
+import { DEFAULT_HIGHLIGHT_COLOR, TScreen } from "./constants";
 import Graph from "./graph";
 import { TNode } from "./types";
 
@@ -10,11 +10,11 @@ const SIDE_PADDING = 1; // one cell each side when terminal is narrow
 
 type Props = {
   graph: Graph;
-  showSearch: boolean;
-  setShowSearch: React.Dispatch<React.SetStateAction<boolean>>;
+  currentScreen: TScreen;
+  onScreenChange: (string: TScreen) => void;
 };
 
-const Search: React.FC<Props> = ({ graph, showSearch, setShowSearch }) => {
+const Search: React.FC<Props> = ({ graph, currentScreen, onScreenChange }) => {
   const [searchResults, setSearchResults] = useState<TNode[]>([]);
   const [searchIsFocused, setSearchIsFocused] = useState(true);
   const [focusedResultIndex, setFocusedResultIndex] = useState(0);
@@ -22,10 +22,10 @@ const Search: React.FC<Props> = ({ graph, showSearch, setShowSearch }) => {
 
   // on search opened, focus input
   useEffect(() => {
-    if (showSearch) {
+    if (currentScreen) {
       setSearchIsFocused(true);
     }
-  }, [showSearch]);
+  }, [currentScreen]);
 
   // component width and position calculations
   const availableWidth = Math.max(0, width - SIDE_PADDING * 2);
@@ -39,6 +39,10 @@ const Search: React.FC<Props> = ({ graph, showSearch, setShowSearch }) => {
   const head = ["id", "value"];
   const columnCount = head.length;
   const columnWidth = Math.max(1, Math.floor(componentWidth / columnCount));
+
+  const baseY = Math.floor((height - 10) / 2);
+  const tableHeight = Math.min(16, Math.max(0, height - 12)); // rows incl. header
+  const statusY = baseY + 1 + tableHeight; // one below table
 
   // table items from search results
   const items: string[][] = searchResults.map((node) => [
@@ -65,8 +69,8 @@ const Search: React.FC<Props> = ({ graph, showSearch, setShowSearch }) => {
     if (node && node.position) {
       graph.fitView(node.id);
     }
-    setShowSearch(false);
-  }, [graph, searchResults, focusedResultIndex, setShowSearch]);
+    onScreenChange("");
+  }, [graph, searchResults, focusedResultIndex, onScreenChange]);
 
   const onListTableChange = useCallback(({ y }: { y: number }) => {
     setFocusedResultIndex(y);
@@ -77,7 +81,7 @@ const Search: React.FC<Props> = ({ graph, showSearch, setShowSearch }) => {
     (input: string) => {
       // Escape closes search
       if (input === "\x1b") {
-        setShowSearch(false);
+        onScreenChange("");
         return;
       }
 
@@ -109,23 +113,19 @@ const Search: React.FC<Props> = ({ graph, showSearch, setShowSearch }) => {
         return;
       }
     },
-    [searchResults.length, setShowSearch]
+    [searchResults.length, onScreenChange, currentScreen]
   );
 
-  if (!showSearch) {
+  if (currentScreen !== "search") {
     return <></>;
   }
-
-  const baseY = Math.floor((height - 10) / 2);
-  const tableHeight = Math.min(16, Math.max(0, height - 12)); // rows incl. header
-  const statusY = baseY + 1 + tableHeight; // one below table
 
   return (
     <>
       <Text absolute x={containerX} y={baseY} background="Black">
         {/* render text input */}
         <Input
-          onCancel={() => setShowSearch(false)}
+          onCancel={() => onScreenChange("")}
           onChange={onInputChange}
           onSubmit={onSubmit}
           background="#404040"
@@ -161,7 +161,7 @@ const Search: React.FC<Props> = ({ graph, showSearch, setShowSearch }) => {
           // table headers
           renderHead={({ item, index, y, x }) =>
             item.map((i, key) => (
-              <Text key={key} width={columnWidth} background="#202020" bold>
+              <Text key={key} width={columnWidth} background="Black" bold>
                 {i}
               </Text>
             ))
@@ -190,8 +190,8 @@ const Search: React.FC<Props> = ({ graph, showSearch, setShowSearch }) => {
         y={statusY}
         width={componentWidth}
         height={1}
-        background="#101010"
-        color="#f2f2f2"
+        background="Black"
+        color="BrightWhite"
       >
         <Block align="center" width={componentWidth}>
           ↑/↓ or ctrl+n/ctrl+p | Enter to select | Esc close

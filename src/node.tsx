@@ -44,23 +44,24 @@ const Node: React.FC<Props> = ({
   const relativeX = x - cursor.x;
   const relativeY = y - cursor.y;
 
+  // --- PERFORMANCE EHNANCEMENTS ---
   // don't render if outside terminal bounds
-  if (
-    relativeX <= 0 ||
-    relativeX >= termWidth ||
-    relativeY <= 0 ||
-    relativeY >= termHeight
-  ) {
-    return <></>;
-  }
+  // if (
+  //   relativeX < 0 ||
+  //   relativeX > termWidth ||
+  //   relativeY < 0 ||
+  //   relativeY > termHeight
+  // ) {
+  //   return <></>;
+  // }
 
   // ID frame (if shown) must also fit fully
-  if (!renderOnlyValues) {
-    const idY = relativeY - ID_OFFSET;
-    if (idY < 0 || idY + FRAME_HEIGHT > termHeight) {
-      return <></>;
-    }
-  }
+  // if (!renderOnlyValues) {
+  //   const idY = relativeY - ID_OFFSET;
+  //   if (idY < 0 || idY + FRAME_HEIGHT > termHeight) {
+  //     return <></>;
+  //   }
+  // }
 
   return (
     <>

@@ -1,15 +1,16 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import ReactCurse, { Frame, Text, useInput, useSize } from "react-curse";
+import React, { useCallback, useEffect, useState } from "react";
+import ReactCurse, { Text, useInput, useSize } from "react-curse";
+import About from "./about";
+import { TScreen } from "./constants";
 import Cursor from "./cursor";
 import Edge from "./edge";
 import Graph from "./graph";
+import Keybindings from "./keybindings";
+import Menu from "./menu";
 import Node from "./node";
 import Search from "./search";
+import StatusLine from "./statusline";
 import { TNode } from "./types";
-
-const timeNow = () => {
-  return new Date().toTimeString().substring(0, 8);
-};
 
 type Props = {
   graph: Graph;
@@ -19,8 +20,9 @@ type Props = {
 const Renderer: React.FC<Props> = ({ graph, nodeWidth }) => {
   // init hooks
   const [counter, setCounter] = useState(0);
-  const [showSearch, setShowSearch] = useState(false);
+  const [currentScreen, setCurrentScreen] = useState<TScreen>("");
 
+  // term size
   const { width: termW, height: termH } = useSize();
 
   // initial fit to view
@@ -29,23 +31,34 @@ const Renderer: React.FC<Props> = ({ graph, nodeWidth }) => {
     setCounter((prev) => prev + 1);
   }, []);
 
+  // update term size in graph
   useEffect(() => {
     graph.setTermSize(termW, termH);
   }, [termW, termH]);
 
-  // status line info
-  const nodeCount = graph.nodes.length || 0;
-  const edgeCount = graph.edges.length || 0;
+  const onScreenChange = useCallback(
+    (screen: TScreen) => {
+      setCurrentScreen(screen);
+      setCounter((prev) => prev + 1);
+    },
+    [setCurrentScreen, setCounter]
+  );
 
   // handle user input
   useInput(
     (input: string) => {
-      if (showSearch) {
+      if (currentScreen) {
         return;
       }
 
       if (input === "\x10\x0d" || input === "q") {
         ReactCurse.exit();
+      } else if (input === "\x1b" || input === " ") {
+        onScreenChange("optionsMenu");
+        return;
+      } else if (input === "/") {
+        onScreenChange("search");
+        return;
       } else if (input === "j" || input === "\x1b[B") {
         graph.pan(0, 2);
       } else if (input === "k" || input === "\x1b[A") {
@@ -64,12 +77,10 @@ const Renderer: React.FC<Props> = ({ graph, nodeWidth }) => {
         graph.pan(25, 0);
       } else if (input === "c") {
         graph.fitView();
-      } else if (input === "/") {
-        setShowSearch(true);
       }
       setCounter((prev) => prev + 1);
     },
-    [showSearch, graph]
+    [graph, onScreenChange, currentScreen]
   );
 
   // render all nodes
@@ -105,20 +116,6 @@ const Renderer: React.FC<Props> = ({ graph, nodeWidth }) => {
     ));
   }, [graph]);
 
-  // status line with node/edge count and help
-  const statusLine = useMemo(() => {
-    return (
-      <Text absolute x={0} y={0}>
-        <Frame>
-          {" "}
-          Nodes: <Text bold>{nodeCount}</Text> | Edges:{" "}
-          <Text bold>{edgeCount}</Text> | <Text bold>/</Text> to search |{" "}
-          <Text bold>q</Text> to exit{" "}
-        </Frame>
-      </Text>
-    );
-  }, [edgeCount, nodeCount]);
-
   return (
     <>
       {/* render user cursor */}
@@ -131,14 +128,30 @@ const Renderer: React.FC<Props> = ({ graph, nodeWidth }) => {
       </Text>
 
       {/* status line */}
-      {statusLine}
+      <StatusLine
+        nodeCount={graph?.nodes?.length || 0}
+        edgeCount={graph?.edges?.length || 0}
+      />
 
       {/* search "modal" */}
       <Search
         graph={graph}
-        showSearch={showSearch}
-        setShowSearch={setShowSearch}
+        currentScreen={currentScreen}
+        onScreenChange={onScreenChange}
       />
+
+      {/* menu "modal" */}
+      {(currentScreen === "optionsMenu" || currentScreen === "openingMenu") && (
+        <Menu onScreenChange={onScreenChange} isOpeningMenu={false} />
+      )}
+
+      {/* keybindings */}
+      {currentScreen === "keybindings" && (
+        <Keybindings onScreenChange={onScreenChange} />
+      )}
+
+      {/* about */}
+      {currentScreen === "about" && <About onScreenChange={onScreenChange} />}
     </>
   );
 };

@@ -1,3 +1,4 @@
+import { Text } from "react-curse";
 import { TCoordinate } from "./types";
 
 /**
@@ -85,6 +86,7 @@ export function getOrthogonalPathPoints(
   return points;
 }
 
+// Determines the character to represent a segment of the path.
 function charForSegment(
   prev: TCoordinate | null,
   current: TCoordinate,
@@ -139,6 +141,7 @@ function charForSegment(
   return "·";
 }
 
+// Converts a path of coordinates into a rendered path with characters.
 export function makePathRendering(
   path: TCoordinate[]
 ): { position: TCoordinate; char: string }[] {
@@ -157,7 +160,79 @@ export function makePathRendering(
   return result;
 }
 
+/**
+ * Generates a rendering path between two coordinates.
+ *
+ * @param source - The starting coordinate of the path.
+ * @param target - The ending coordinate of the path.
+ * @returns A string representing the rendered path.
+ */
 export function getPath(source: TCoordinate, target: TCoordinate) {
   const path = getOrthogonalPathPoints(source, target);
   return makePathRendering(path);
+}
+
+/**
+ * Builds a text-based frame with specified dimensions and content placement details.
+ *
+ * @param contentHeight - The height of the content to be displayed inside the frame.
+ * @param termWidth - The total width of the available space.
+ * @param termHeight - The total height of the available space.
+ * @returns An object containing the frame's lines, starting positions, and layout details:
+ * - `frameLines`: An array of strings representing the lines of the frame.
+ * - `startX`: The X-coordinate where the frame starts.
+ * - `startY`: The Y-coordinate where the frame starts.
+ * - `contentStartX`: The X-coordinate where the content starts inside the frame.
+ * - `bannerY`: The Y-coordinate of the banner section inside the frame.
+ * - `listY`: The Y-coordinate where the list content starts inside the frame.
+ * - `backgroundHeight`: The total height of the frame's background, including padding.
+ */
+export function buildFrame(
+  contentHeight: number,
+  termWidth: number,
+  termHeight: number,
+  width?: number
+) {
+  const maxLen = width ?? 22;
+  const innerPaddingX = 8;
+  const innerPaddingY = 3;
+  const paddingBottom = 3;
+  const bannerHeight = 3;
+  const contentWidth = maxLen + innerPaddingX * 2;
+
+  const top = `┌${"─".repeat(contentWidth)}┐`;
+  const makeEmptyRow = () => `│${" ".repeat(contentWidth)}│`;
+  const contentRows = Array(
+    innerPaddingY * 2 + bannerHeight + contentHeight
+  ).fill(makeEmptyRow());
+  const bottom = `└${"─".repeat(contentWidth)}┘`;
+  const frameLines = [top, ...contentRows, bottom];
+
+  const frameHeight = innerPaddingY * 2 + contentHeight + 2; // top and bottom borders
+  const frameWidth = contentWidth + 2;
+  const startX = Math.max(0, Math.floor((termWidth - frameWidth) / 2));
+  const startY = Math.max(0, Math.floor((termHeight - frameHeight) / 2));
+
+  const contentStartX = startX + 1 + innerPaddingX;
+  const bannerY = startY + innerPaddingY;
+  const listY = bannerY + bannerHeight + 1;
+  const backgroundHeight =
+    bannerHeight + contentHeight + innerPaddingY + paddingBottom; // adjust for padding
+
+  const frame = (
+    <Text absolute x={startX} y={startY} block>
+      {frameLines.join("\n")}
+    </Text>
+  );
+
+  return {
+    frame,
+    frameLines,
+    startX,
+    startY,
+    contentStartX,
+    bannerY,
+    listY,
+    backgroundHeight,
+  };
 }
