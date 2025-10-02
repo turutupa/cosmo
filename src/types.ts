@@ -30,3 +30,14 @@ export type TSearchResult = {
   }[];
   all: TNode[];
 };
+
+export type TScreen =
+  | "openFile"
+  | "exportYAML"
+  | "exportJSON"
+  | "openingMenu"
+  | "optionsMenu"
+  | "keybindings"
+  | "about"
+  | "search"
+  | "";

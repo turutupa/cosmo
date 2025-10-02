@@ -6,13 +6,14 @@ import ReactCurse, {
   useInput,
   useSize,
 } from "react-curse";
-import { TScreen } from "./constants";
+import { ESCAPE } from "./constants";
+import { TScreen } from "./types";
 import { buildFrame } from "./utils";
 
 const icons: Record<string, string> = {
   "Open file": "",
-  "Export YML": "",
-  "Export JSON": "",
+  "Export YAML": "",
+  "Export JSON": "{",
   About: "",
   Keybindings: "",
   Quit: "",
@@ -20,7 +21,7 @@ const icons: Record<string, string> = {
 
 const shortcutIcons: Record<string, string> = {
   "Open file": "o",
-  "Export YML": "y",
+  "Export YAML": "y",
   "Export JSON": "u",
   About: "a",
   Keybindings: "s",
@@ -29,7 +30,7 @@ const shortcutIcons: Record<string, string> = {
 
 const screens: Record<string, TScreen> = {
   "Open file": "openFile",
-  "Export YML": "exportYML",
+  "Export YAML": "exportYAML",
   "Export JSON": "exportJSON",
   About: "about",
   Keybindings: "keybindings",
@@ -44,19 +45,22 @@ type TOpeningMenuItem = {
   shortcut: string;
 };
 
-const OPENING_MENU: TOpeningMenuItem[] = ["Open file", "About", "Quit"].map(
-  (title, index) => ({
-    title,
-    icon: icons[title],
-    shortcut: shortcutIcons[title],
-    screen: screens[title],
-    index,
-  })
-);
+const OPENING_MENU: TOpeningMenuItem[] = [
+  "Open file",
+  "Keybindings",
+  "About",
+  "Quit",
+].map((title, index) => ({
+  title,
+  icon: icons[title],
+  shortcut: shortcutIcons[title],
+  screen: screens[title],
+  index,
+}));
 
 const OPTIONS_MENU: TOpeningMenuItem[] = [
   "Open file",
-  "Export YML",
+  "Export YAML",
   "Export JSON",
   "Keybindings",
   "About",
@@ -94,7 +98,7 @@ const Menu: React.FC<Props> = ({ isOpeningMenu, onScreenChange }) => {
 
   useInput((input: string) => {
     // Close the menu on 'Escape' or 'q' key press
-    if (input === "\x1b") {
+    if (input === ESCAPE) {
       if (isOpeningMenu) {
         ReactCurse.exit();
       }
@@ -107,14 +111,20 @@ const Menu: React.FC<Props> = ({ isOpeningMenu, onScreenChange }) => {
       onScreenChange("about");
     } else if (input === "o") {
       onScreenChange("openFile");
+    } else if (input === "y" && !isOpeningMenu) {
+      onScreenChange("exportYAML");
+    } else if (input === "u" && !isOpeningMenu) {
+      onScreenChange("exportJSON");
     }
   }, []);
 
   const onSubmit = ({ y }: ListPos) => {
-    menuOptions[y].title === "Quit" && ReactCurse.exit();
+    menuOptions[y].title === "Open file" && onScreenChange("openFile");
+    menuOptions[y].title === "Export YAML" && onScreenChange("exportYAML");
+    menuOptions[y].title === "Export JSON" && onScreenChange("exportJSON");
     menuOptions[y].title === "Keybindings" && onScreenChange("keybindings");
     menuOptions[y].title === "About" && onScreenChange("about");
-    menuOptions[y].title === "Open file" && onScreenChange("openFile");
+    menuOptions[y].title === "Quit" && ReactCurse.exit();
   };
 
   return (

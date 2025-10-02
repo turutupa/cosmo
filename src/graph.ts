@@ -1,4 +1,7 @@
 import ELK from "elkjs/lib/elk.bundled.js";
+import fs from "fs/promises";
+import path from "path";
+import YAML from "yaml";
 import { DEFAULT_NODE_WIDTH, FRAME_HEIGHT } from "./node";
 import { TCoordinate, TEdge, TNode } from "./types";
 
@@ -7,12 +10,12 @@ type Props = {
   edges: TEdge[];
   termSize: { width: number; height: number };
   nodeWidth?: number;
-  renderNodeId?: boolean;
+  renderNodeIdFrame?: boolean;
 };
 
-const defaultProps: Pick<Props, "nodeWidth" | "renderNodeId"> = {
+const defaultProps: Pick<Props, "nodeWidth" | "renderNodeIdFrame"> = {
   nodeWidth: DEFAULT_NODE_WIDTH,
-  renderNodeId: true,
+  renderNodeIdFrame: true,
 };
 
 export default class Graph {
@@ -28,6 +31,11 @@ export default class Graph {
     } as Required<Props>;
   }
 
+  /**
+   * Creates a Graph from the given props, auto-layouts if needed, populates lookup maps, and returns it.
+   * @param props Input properties for the Graph.
+   * @returns Initialized Graph instance.
+   */
   public static async create(props: Props): Promise<Graph> {
     const graph = new Graph(props);
     // auto layout nodes and edges
@@ -42,6 +50,89 @@ export default class Graph {
       graph.edgesLookup.set(edge.id, edge);
     }
     return graph;
+  }
+
+  /**
+   * Loads a Graph definition from a JSON or YAML file on disk.
+   * Returns null immediately if the file extension is not .json/.yml/.yaml.
+   *
+   * @param filePath Absolute or relative path to the graph file.
+   * @param termWidth Terminal width used for layout calculations.
+   * @param termHeight Terminal height used for layout calculations.
+   * @returns A resolved Graph instance, or null if unsupported extension.
+   * @throws Error if the file cannot be read, parsed, or has an invalid structure.
+   */
+  public static async loadFromFile(
+    filePath: string,
+    { termWidth, termHeight }: { termWidth: number; termHeight: number }
+  ): Promise<Graph | null> {
+    const ext = path.extname(filePath).toLowerCase();
+    if (![".json", ".yml", ".yaml"].includes(ext)) {
+      return null;
+    }
+
+    let raw: string;
+    try {
+      raw = await fs.readFile(filePath, "utf8");
+    } catch (err) {
+      throw new Error(
+        `Cannot read file: ${filePath} (${(err as Error).message})`
+      );
+    }
+
+    let data: any;
+    try {
+      if (ext === ".json") {
+        data = JSON.parse(raw);
+      } else {
+        data = YAML.parse(raw);
+      }
+    } catch (err) {
+      throw new Error(
+        `Failed to parse ${ext} graph file: ${(err as Error).message}`
+      );
+    }
+
+    if (!data || !Array.isArray(data.nodes) || !Array.isArray(data.edges)) {
+      throw new Error(`Invalid graph file structure`);
+    }
+
+    return Graph.create({
+      nodes: data.nodes,
+      edges: data.edges,
+      termSize: { width: termWidth, height: termHeight },
+      nodeWidth: data.nodeWidth || DEFAULT_NODE_WIDTH,
+      renderNodeIdFrame:
+        typeof data.renderNodeId === "boolean" ? data.renderNodeId : true,
+    });
+  }
+
+  /**
+   * Export graph to JSON file (schema compatible with loadFromFile)
+   */
+  public async exportToJSON(
+    fileName: string = "cosmo-graph.json"
+  ): Promise<void> {
+    const out = {
+      nodes: this.props.nodes,
+      edges: this.props.edges,
+    };
+    const json = JSON.stringify(out, null, 2);
+    await fs.writeFile(path.resolve(process.cwd(), fileName), json, "utf8");
+  }
+
+  /**
+   * Export graph to YAML file (schema compatible with loadFromFile)
+   */
+  public async exportToYAML(
+    fileName: string = "cosmo-graph.yaml"
+  ): Promise<void> {
+    const out = {
+      nodes: this.props.nodes,
+      edges: this.props.edges,
+    };
+    const yaml = YAML.stringify(out);
+    await fs.writeFile(path.resolve(process.cwd(), fileName), yaml, "utf8");
   }
 
   /**
@@ -254,8 +345,8 @@ export default class Graph {
     }
 
     this.pos = {
-      x: centerX - termW / 2 + paddingX,
-      y: centerY - termH / 2 + paddingY,
+      x: Math.floor(centerX - termW / 2) + paddingX,
+      y: Math.floor(centerY - termH / 2) + paddingY,
     };
   }
 

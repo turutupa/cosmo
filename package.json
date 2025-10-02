@@ -10,8 +10,10 @@
     "dist": "npx esbuild app.tsx --outfile=.dist/index.cjs --bundle --platform=node --define:'process.env.NODE_ENV=\"production\"' --minify --tree-shaking=true"
   },
   "dependencies": {
+    "@types/yaml": "^1.9.7",
     "elkjs": "^0.10.0",
-    "react-curse": "^1.0.22"
+    "react-curse": "^1.0.22",
+    "yaml": "^2.8.1"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",

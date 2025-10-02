@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Block, Input, ListTable, Text, useInput, useSize } from "react-curse";
-import { DEFAULT_HIGHLIGHT_COLOR, TScreen } from "./constants";
+import { DEFAULT_HIGHLIGHT_COLOR } from "./constants";
 import Graph from "./graph";
-import { TNode } from "./types";
+import { TNode, TScreen } from "./types";
 
 // component width constraints
 const MAX_COMPONENT_WIDTH = 60;

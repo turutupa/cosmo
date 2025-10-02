@@ -1,49 +1,58 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ReactCurse, { useSize } from "react-curse";
 import Graph from "./graph";
 import Renderer from "./renderer";
 import { TEdge, TNode } from "./types";
 
-import { edges, nodes } from "./mock/graph";
-
 type Props = {
-  nodes: TNode[];
-  edges: TEdge[];
+  nodes?: TNode[];
+  edges?: TEdge[];
   nodeWidth?: number;
   nodeHeight?: number;
 };
 
-const App: React.FC<Props> = ({ nodes, edges, nodeWidth, nodeHeight }) => {
-  const [graph, setGraph] = useState<Graph | null>(null);
-  const { width, height } = useSize();
+const App: React.FC<Props> = ({ nodes, edges }) => {
+  const [graph, setGraph] = useState<Graph | undefined>(undefined);
+  const { width: termWidth, height: termHeight } = useSize();
 
   // initialize graph on first graph / edges provided
   useEffect(() => {
+    if (!nodes || !edges) {
+      return;
+    }
+
     const initializeGraph = async () => {
       const createdGraph = await Graph.create({
         nodes,
         edges,
-        termSize: { width, height },
+        termSize: { width: termWidth, height: termHeight },
       });
       setGraph(createdGraph);
     };
     initializeGraph();
   }, [nodes, edges]);
 
-  // adjust terminal size in graph (for relative positioning)
+  // update terminal size in graph (for relative positioning)
   useEffect(() => {
-    graph?.setTermSize(width, height);
-  }, [width, height]);
+    graph?.setTermSize(termWidth, termHeight);
+  }, [termWidth, termHeight]);
 
-  if (!graph) {
+  const loadGraph = useCallback((newGraph: Graph) => {
+    setGraph(newGraph);
+  }, []);
+
+  // do not render if terminal size is invalid
+  if (termWidth < 1 || termHeight < 1) {
     return <></>;
   }
 
-  if (width < 1 || height < 1) {
-    return <></>;
-  }
-
-  return <Renderer graph={graph} />;
+  return (
+    <Renderer
+      initialScreen={graph ? "" : "openingMenu"}
+      loadGraph={loadGraph}
+      graph={graph}
+    />
+  );
 };
 
-ReactCurse.render(<App nodes={nodes} edges={edges} />);
+ReactCurse.render(<App />);
