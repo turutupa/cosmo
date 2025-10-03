@@ -1,4 +1,5 @@
 import { Text } from "react-curse";
+import { theme } from "./theme";
 
 // const ASCII = "·";
 const ASCII = "+";
@@ -12,7 +13,7 @@ const Cursor: React.FC<Props> = ({ termSize }) => {
   const x = Math.max(0, Math.floor((width - ASCII.length) / 2));
   const y = Math.max(0, Math.floor(height / 2));
   return (
-    <Text absolute x={x} y={y} color="#6d6d6d">
+    <Text absolute x={x} y={y} color={theme.gray} background={theme.black}>
       {ASCII}
     </Text>
   );

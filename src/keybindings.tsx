@@ -1,5 +1,6 @@
 import { Banner, Text, useInput, useSize } from "react-curse";
 import { TScreen } from "./constants";
+import { theme } from "./theme";
 import { buildFrame } from "./utils";
 
 type TKeybinding = {
@@ -46,13 +47,13 @@ const Keybindings: React.FC<Props> = ({ onScreenChange }) => {
     Math.max(...keybindingsInfo.map((k) => k.action.length)) + 4; // padding
 
   return (
-    <Text absolute x={startX} y={startY} background="Black">
+    <Text absolute x={startX} y={startY} background={theme.black}>
       {/* render frame */}
       {frame}
 
       {/* render banner */}
       <Banner
-        color="Green"
+        color={theme.green}
         absolute
         x={contentStartX + bannerPadding}
         y={bannerY}
@@ -70,14 +71,21 @@ const Keybindings: React.FC<Props> = ({ onScreenChange }) => {
         <Text>
           <Text
             bold
-            background="Green"
-            color="Black"
+            background={theme.green}
+            color={theme.black}
             width={actionColWidth}
             height={1}
           >
+            {" "}
             Action
           </Text>
-          <Text bold background="Green" color="Black" height={1} width={15}>
+          <Text
+            bold
+            background={theme.green}
+            color={theme.black}
+            height={1}
+            width={15}
+          >
             Keys
           </Text>
         </Text>
@@ -91,8 +99,8 @@ const Keybindings: React.FC<Props> = ({ onScreenChange }) => {
             x={contentStartX + contentPadding}
             y={listY + 3 + i}
           >
-            <Text width={actionColWidth}>{kb.action}</Text>
-            <Text color="Green">{kb.keys.join(", ")}</Text>
+            <Text width={actionColWidth}> {kb.action}</Text>
+            <Text color={theme.green}>{kb.keys.join(", ")}</Text>
           </Text>
         ))}
       </Text>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, useSize } from "react-curse";
-import { DEFAULT_HIGHLIGHT_COLOR } from "./constants";
 import { DEFAULT_NODE_WIDTH } from "./node";
+import { theme } from "./theme";
 import { TCoordinate, TNode } from "./types";
 import { getPath } from "./utils";
 
@@ -46,7 +46,8 @@ const Edge: React.FC<Props> = ({ id, source, target, cursor, isFocused }) => {
             key={`edge-${id}-idx-${index}`}
             x={position.x - cursor.x}
             y={position.y - cursor.y}
-            color={isFocused ? DEFAULT_HIGHLIGHT_COLOR : "#6d6d6d"}
+            color={isFocused ? theme.green : theme.gray}
+            background={theme.black}
           >
             {char}
           </Text>

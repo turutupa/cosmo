@@ -1,6 +1,6 @@
 import React from "react";
 import { Block, Frame, Text } from "react-curse";
-import { DEFAULT_HIGHLIGHT_COLOR } from "./constants";
+import { theme } from "./theme";
 import { TCoordinate, TNode } from "./types";
 
 export const DEFAULT_NODE_WIDTH = 16;
@@ -66,11 +66,8 @@ const Node: React.FC<Props> = ({
   return (
     <>
       {/* render value frame */}
-      <Text absolute x={relativeX} y={relativeY}>
-        <Frame
-          width={nodeWidth}
-          color={isFocused ? DEFAULT_HIGHLIGHT_COLOR : undefined}
-        >
+      <Text absolute x={relativeX} y={relativeY} background={theme.black}>
+        <Frame width={nodeWidth} color={isFocused ? theme.green : theme.white}>
           <Block width={nodeWidth} align="center">
             {valueText}
           </Block>
@@ -79,11 +76,17 @@ const Node: React.FC<Props> = ({
 
       {/* render id frame - goes below so it overwrites value frame */}
       {!renderOnlyValues && (
-        <Text absolute x={relativeX} y={relativeY - ID_OFFSET} bold>
+        <Text
+          absolute
+          x={relativeX}
+          y={relativeY - ID_OFFSET}
+          bold
+          background={theme.black}
+        >
           <>
             <Frame
               width={nodeWidth}
-              color={isFocused ? DEFAULT_HIGHLIGHT_COLOR : undefined}
+              color={isFocused ? theme.green : theme.white}
             >
               <Block width={nodeWidth} align="center">
                 {idText}

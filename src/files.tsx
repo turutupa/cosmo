@@ -11,6 +11,7 @@ import {
   useSize,
 } from "react-curse";
 import { ESCAPE, FILE_ICON, FOLDER_ICON } from "./constants";
+import { theme } from "./theme";
 import { TScreen } from "./types";
 import { buildFrame } from "./utils";
 
@@ -266,17 +267,17 @@ const Files: React.FC<Props> = ({ onSelect, onScreenChange, startDir }) => {
   const contentPadding = 0;
 
   return (
-    <Text absolute x={startX} y={startY} background="Black">
+    <Text absolute x={startX} y={startY} background={theme.black}>
       {/* render frame */}
       {frame}
 
       {/* render banner */}
       <Text absolute x={contentStartX + bannerPadding} y={bannerY}>
-        <Banner color="Green">{title}</Banner>
+        <Banner color={theme.green}>{title}</Banner>
       </Text>
 
       {/* render current path */}
-      <Text absolute x={listX} y={listY + 1} color="Yellow">
+      <Text absolute x={listX} y={listY + 1} color={theme.yellow}>
         {currentPath}
       </Text>
 
@@ -299,16 +300,18 @@ const Files: React.FC<Props> = ({ onSelect, onScreenChange, startDir }) => {
             x2: 0,
           }}
           scrollbar
-          scrollbarBackground={"Black"}
-          scrollbarColor={"#AAAAAA"}
+          scrollbarBackground={theme.black}
+          scrollbarColor={theme.brightGray}
           data={filteredEntries}
           renderItem={({ item, selected }) => {
             const icon = item.isDir ? FOLDER_ICON : FILE_ICON;
             return (
               <Text
                 width={38}
-                color={selected ? "Black" : item.isDir ? "Cyan" : "White"}
-                background={selected ? "Green" : undefined}
+                color={
+                  selected ? theme.black : item.isDir ? theme.cyan : theme.white
+                }
+                background={selected ? theme.green : theme.black}
               >
                 {` ${icon} ${item.label} `}
               </Text>
@@ -320,12 +323,12 @@ const Files: React.FC<Props> = ({ onSelect, onScreenChange, startDir }) => {
 
       {/* filter input */}
       {searchMode && (
-        <Text absolute x={listX} y={backgroundHeight + 14} color="Yellow">
+        <Text absolute x={listX} y={backgroundHeight + 14} color={theme.yellow}>
           <Input
             key={`filter-input-${searchInputKey}`}
             width={listWidth}
             height={1}
-            background="#303030"
+            background={theme.brightBlack}
             initialValue={searchText}
             onChange={setSearchText}
             onSubmit={onSearchSubmit}
@@ -344,7 +347,7 @@ const Files: React.FC<Props> = ({ onSelect, onScreenChange, startDir }) => {
           absolute
           x={listX + contentPadding}
           y={backgroundHeight + 14}
-          color="Red"
+          color={theme.red}
         >
           {error}
         </Text>

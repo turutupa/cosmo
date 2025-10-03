@@ -7,6 +7,7 @@ import ReactCurse, {
   useSize,
 } from "react-curse";
 import { ESCAPE } from "./constants";
+import { theme } from "./theme";
 import { TScreen } from "./types";
 import { buildFrame } from "./utils";
 
@@ -132,23 +133,23 @@ const Menu: React.FC<Props> = ({ isOpeningMenu, onScreenChange }) => {
       absolute
       x={startX}
       y={startY}
-      background="Black"
+      background={theme.black}
       width={22}
       height={backgroundHeight}
     >
       {frame}
       <Text absolute x={contentStartX + bannerPadding} y={bannerY}>
-        <Banner color="Green">COSMO</Banner>
+        <Banner color={theme.green}>COSMO</Banner>
       </Text>
       <Text absolute x={contentStartX} y={listY}>
         <List
           data={menuOptions}
           onSubmit={onSubmit}
           renderItem={({ item, selected }) => (
-            <Text color={selected ? "Green" : undefined}>
+            <Text color={selected ? theme.green : theme.white}>
               <Text width={3}>{item.icon}</Text>
               <Text width={17}>{item.title}</Text>
-              <Text color={"Green"}>{item.shortcut}</Text>
+              <Text color={theme.green}>{item.shortcut}</Text>
             </Text>
           )}
         />

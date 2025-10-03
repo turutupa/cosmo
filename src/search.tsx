@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Block, Input, ListTable, Text, useInput, useSize } from "react-curse";
-import { DEFAULT_HIGHLIGHT_COLOR } from "./constants";
 import Graph from "./graph";
+import { theme } from "./theme";
 import { TNode, TScreen } from "./types";
 
 // component width constraints
@@ -122,7 +122,7 @@ const Search: React.FC<Props> = ({ graph, currentScreen, onScreenChange }) => {
 
   return (
     <>
-      <Text absolute x={containerX} y={baseY} background="Black">
+      <Text absolute x={containerX} y={baseY} background={theme.black}>
         {/* render text input */}
         <Input
           onCancel={() => onScreenChange("")}
@@ -140,7 +140,7 @@ const Search: React.FC<Props> = ({ graph, currentScreen, onScreenChange }) => {
         absolute
         x={containerX}
         y={baseY + 1}
-        background={"BrightBlack"}
+        background={theme.brightBlack}
         height={tableHeight}
         width={componentWidth}
       >
@@ -161,7 +161,7 @@ const Search: React.FC<Props> = ({ graph, currentScreen, onScreenChange }) => {
           // table headers
           renderHead={({ item, index, y, x }) =>
             item.map((i, key) => (
-              <Text key={key} width={columnWidth} background="Black" bold>
+              <Text key={key} width={columnWidth} background={theme.black} bold>
                 {i}
               </Text>
             ))
@@ -171,8 +171,8 @@ const Search: React.FC<Props> = ({ graph, currentScreen, onScreenChange }) => {
             item.map((text, key) => (
               <Text
                 key={key}
-                background={y === index ? DEFAULT_HIGHLIGHT_COLOR : undefined}
-                color={y === index ? "Black" : undefined}
+                background={y === index ? theme.green : theme.brightBlack}
+                color={y === index ? theme.black : theme.white}
                 width={columnWidth}
               >
                 {text}
@@ -190,8 +190,8 @@ const Search: React.FC<Props> = ({ graph, currentScreen, onScreenChange }) => {
         y={statusY}
         width={componentWidth}
         height={1}
-        background="Black"
-        color="BrightWhite"
+        background={theme.black}
+        color={theme.white}
       >
         <Block align="center" width={componentWidth}>
           ↑/↓ or ctrl+n/ctrl+p | Enter to select | Esc close

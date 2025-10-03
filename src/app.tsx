@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
-import ReactCurse, { useSize } from "react-curse";
+import ReactCurse, { Text, useSize } from "react-curse";
 import Graph from "./graph";
 import Renderer from "./renderer";
+import { theme } from "./theme";
 import { TEdge, TNode } from "./types";
 
 type Props = {
@@ -47,11 +48,24 @@ const App: React.FC<Props> = ({ nodes, edges }) => {
   }
 
   return (
-    <Renderer
-      initialScreen={graph ? "" : "openingMenu"}
-      loadGraph={loadGraph}
-      graph={graph}
-    />
+    <>
+      {/* render background */}
+      <Text
+        absolute
+        x={0}
+        y={0}
+        width={termWidth}
+        height={termHeight}
+        background={theme.black}
+      ></Text>
+
+      {/* renderer */}
+      <Renderer
+        initialScreen={graph ? "" : "openingMenu"}
+        loadGraph={loadGraph}
+        graph={graph}
+      />
+    </>
   );
 };
 

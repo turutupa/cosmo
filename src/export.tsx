@@ -2,6 +2,7 @@ import fs from "fs";
 import React, { useCallback, useEffect, useState } from "react";
 import { Banner, Input, Text, useInput, useSize } from "react-curse";
 import { ESCAPE } from "./constants";
+import { theme } from "./theme";
 import { TScreen } from "./types";
 import { buildFrame } from "./utils";
 
@@ -137,14 +138,14 @@ const Export: React.FC<Props> = ({
     : " Enter to export | Esc cancel ";
 
   return (
-    <Text absolute x={startX} y={startY} background="Black">
+    <Text absolute x={startX} y={startY} background={theme.black}>
       {frame}
 
       <Banner
         absolute
         x={contentStartX + bannerPadding}
         y={bannerY}
-        color="Green"
+        color={theme.green}
       >
         EXPORT
       </Banner>
@@ -152,7 +153,7 @@ const Export: React.FC<Props> = ({
       {!confirming && (
         <>
           {/* filename label */}
-          <Text absolute x={contentStartX} y={listY} color="Yellow">
+          <Text absolute x={contentStartX} y={listY} color={theme.yellow}>
             {label}
           </Text>
 
@@ -184,7 +185,7 @@ const Export: React.FC<Props> = ({
               startX + Math.max(0, Math.floor((76 - overwriteLabel.length) / 2))
             }
             y={listY}
-            color="Yellow"
+            color={theme.yellow}
           >
             {overwriteLabel}
           </Text>
@@ -195,8 +196,8 @@ const Export: React.FC<Props> = ({
             y={listY + 2}
             width={10}
             height={1}
-            color="BrightWhite"
-            background="BrightBlack"
+            color={theme.white}
+            background={theme.brightBlack}
           >
             {"  No (n)  "}
           </Text>
@@ -206,8 +207,8 @@ const Export: React.FC<Props> = ({
             y={listY + 2}
             width={10}
             height={1}
-            color="Black"
-            background="Green"
+            color={theme.black}
+            background={theme.green}
           >
             {"  Yes (y) "}
           </Text>
@@ -220,7 +221,7 @@ const Export: React.FC<Props> = ({
           // Center within total frame width of 76
           x={startX + Math.max(0, Math.floor((76 - error.length) / 2))}
           y={listY + 3}
-          color="Red"
+          color={theme.red}
         >
           {error}
         </Text>

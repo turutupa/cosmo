@@ -1,5 +1,6 @@
 import { Banner, Text, useInput, useSize } from "react-curse";
 import { TScreen } from "./constants";
+import { theme } from "./theme";
 import { buildFrame } from "./utils";
 
 type Props = {
@@ -44,13 +45,13 @@ const About: React.FC<Props> = ({ onScreenChange }) => {
   });
 
   return (
-    <Text absolute x={startX} y={startY} background="Black">
+    <Text absolute x={startX} y={startY} background={theme.black}>
       {/* render frame */}
       {frame}
 
       {/* render banner */}
       <Banner
-        color="Green"
+        color={theme.green}
         absolute
         x={contentStartX + bannerPadding}
         y={bannerY}
@@ -72,7 +73,7 @@ const About: React.FC<Props> = ({ onScreenChange }) => {
           const suffix = line.slice(colonIdx + 1);
           return (
             <Text absolute x={x} y={y} key={key}>
-              <Text color="Green">{prefix}</Text>
+              <Text color={theme.green}>{prefix}</Text>
               <Text>{suffix}</Text>
             </Text>
           );
