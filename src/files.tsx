@@ -10,7 +10,7 @@ import {
   useInput,
   useSize,
 } from "react-curse";
-import { ESCAPE } from "./constants";
+import { ESCAPE, FILE_ICON, FOLDER_ICON } from "./constants";
 import { TScreen } from "./types";
 import { buildFrame } from "./utils";
 
@@ -302,14 +302,18 @@ const Files: React.FC<Props> = ({ onSelect, onScreenChange, startDir }) => {
           scrollbarBackground={"Black"}
           scrollbarColor={"#AAAAAA"}
           data={filteredEntries}
-          renderItem={({ item, selected }) => (
-            <Text
-              color={selected ? "Black" : item.isDir ? "Cyan" : "White"}
-              background={selected ? "Green" : undefined}
-            >
-              {item.label}
-            </Text>
-          )}
+          renderItem={({ item, selected }) => {
+            const icon = item.isDir ? FOLDER_ICON : FILE_ICON;
+            return (
+              <Text
+                width={38}
+                color={selected ? "Black" : item.isDir ? "Cyan" : "White"}
+                background={selected ? "Green" : undefined}
+              >
+                {` ${icon} ${item.label} `}
+              </Text>
+            );
+          }}
           onSubmit={onFileSubmission}
         />
       </Text>
