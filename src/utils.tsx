@@ -1,5 +1,5 @@
 import { Text } from "react-curse";
-import { TCoordinate } from "./types";
+import type { TCoordinate } from "./types";
 
 /**
  * Generate all points along an orthogonal path between source and target.

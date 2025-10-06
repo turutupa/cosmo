@@ -1,4 +1,4 @@
-import { TEdge, TNode } from "../types";
+import { TEdge, TNode } from "../src/types";
 
 export const nodes: TNode[] = [
   { id: "b1", value: "Root" },

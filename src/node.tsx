@@ -1,7 +1,7 @@
 import React from "react";
 import { Block, Frame, Text } from "react-curse";
-import { theme } from "./theme";
-import { TCoordinate, TNode } from "./types";
+import type { TCoordinate, TNode } from "./types";
+import { useTheme } from "./useTheme";
 
 export const DEFAULT_NODE_WIDTH = 16;
 export const FRAME_HEIGHT = 5; // top border + content + bottom
@@ -27,6 +27,8 @@ const Node: React.FC<Props> = ({
   nodeWidth = DEFAULT_NODE_WIDTH,
   termSize: { width: termWidth, height: termHeight },
 }) => {
+  const { theme } = useTheme();
+
   const { x, y } = position || { x: 0, y: 0 };
 
   const trimmedId = id.trimStart().trimEnd();

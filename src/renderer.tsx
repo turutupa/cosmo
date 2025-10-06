@@ -12,7 +12,8 @@ import Menu from "./menu";
 import Node from "./node";
 import Search from "./search";
 import StatusLine from "./statusline";
-import { TNode, TScreen } from "./types";
+import type { TNode, TScreen } from "./types";
+import { useTheme } from "./useTheme";
 
 type Props = {
   initialScreen: TScreen;
@@ -33,6 +34,7 @@ const Renderer: React.FC<Props> = ({
 
   // term size
   const { width: termWidth, height: termHeight } = useSize();
+  const { theme } = useTheme();
 
   // initial fit to view
   useEffect(() => {
@@ -174,8 +176,20 @@ const Renderer: React.FC<Props> = ({
 
   return (
     <>
+      {/* render background */}
+      <Text
+        absolute
+        x={0}
+        y={0}
+        width={termWidth}
+        height={termHeight}
+        background={theme.black}
+      ></Text>
+
       {/* render user cursor */}
-      <Cursor termSize={graph?.termSize || { width: 0, height: 0 }} />
+      {graph && (
+        <Cursor termSize={graph?.termSize || { width: 0, height: 0 }} />
+      )}
 
       {/* render nodes && edges */}
       {graph && (

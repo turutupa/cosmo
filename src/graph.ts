@@ -1,9 +1,9 @@
-import ELK from "elkjs/lib/elk.bundled.js";
+import ELK from "elkjs/lib/elk.bundled";
 import fs from "fs/promises";
 import path from "path";
 import YAML from "yaml";
 import { DEFAULT_NODE_WIDTH, FRAME_HEIGHT } from "./node";
-import { TCoordinate, TEdge, TNode } from "./types";
+import type { TCoordinate, TEdge, TNode } from "./types";
 
 type Props = {
   nodes: TNode[];
@@ -223,7 +223,8 @@ export default class Graph {
 
     // calculate and store edge paths
     for (const edge of this.props.edges) {
-      const computedEdge = elkResult.edges?.find(
+      // TODO: add type to computed edge
+      const computedEdge: any = elkResult.edges?.find(
         (e) => e.id === `${edge.source}-${edge.target}`
       );
 

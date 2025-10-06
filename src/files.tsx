@@ -11,8 +11,8 @@ import {
   useSize,
 } from "react-curse";
 import { ESCAPE, FILE_ICON, FOLDER_ICON } from "./constants";
-import { theme } from "./theme";
-import { TScreen } from "./types";
+import type { TScreen } from "./types";
+import { useTheme } from "./useTheme";
 import { buildFrame } from "./utils";
 
 type TEntry = {
@@ -44,6 +44,7 @@ const Files: React.FC<Props> = ({ onSelect, onScreenChange, startDir }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const ignoreEscapeOnce = useRef(false);
+  const { theme } = useTheme();
 
   // Derived filtered entries
   const filteredEntries = useMemo(() => {

@@ -1,8 +1,8 @@
 import React from "react";
 import { Text, useSize } from "react-curse";
 import { DEFAULT_NODE_WIDTH } from "./node";
-import { theme } from "./theme";
-import { TCoordinate, TNode } from "./types";
+import type { TCoordinate, TNode } from "./types";
+import { useTheme } from "./useTheme";
 import { getPath } from "./utils";
 
 type Props = {
@@ -15,6 +15,7 @@ type Props = {
 
 const Edge: React.FC<Props> = ({ id, source, target, cursor, isFocused }) => {
   const { width: termWidth, height: termHeight } = useSize();
+  const { theme } = useTheme();
 
   // source coordianate (center of node)
   const sc: TCoordinate = {

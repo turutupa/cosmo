@@ -1,6 +1,6 @@
 import { Banner, Text, useInput, useSize } from "react-curse";
-import { TScreen } from "./constants";
-import { theme } from "./theme";
+import type { TScreen } from "./types";
+import { useTheme } from "./useTheme";
 import { buildFrame } from "./utils";
 
 type TKeybinding = {
@@ -27,6 +27,7 @@ type Props = {
 
 const Keybindings: React.FC<Props> = ({ onScreenChange }) => {
   const { width: termWidth, height: termHeight } = useSize();
+  const { theme } = useTheme();
 
   const { frame, startX, startY, contentStartX, bannerY, listY } = buildFrame(
     keybindingsInfo.length + 2, // extra space for heading/description

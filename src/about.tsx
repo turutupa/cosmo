@@ -1,6 +1,6 @@
 import { Banner, Text, useInput, useSize } from "react-curse";
-import { TScreen } from "./constants";
-import { theme } from "./theme";
+import type { TScreen } from "./types";
+import { useTheme } from "./useTheme";
 import { buildFrame } from "./utils";
 
 type Props = {
@@ -26,7 +26,9 @@ const aboutLines: string[] = [
 ];
 
 const About: React.FC<Props> = ({ onScreenChange }) => {
+  const { theme } = useTheme();
   const { width: termWidth, height: termHeight } = useSize();
+
   const contentHeight = aboutLines.length + 2; // padding under banner
   const { frame, startX, startY, contentStartX, bannerY, listY } = buildFrame(
     contentHeight,

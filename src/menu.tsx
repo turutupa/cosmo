@@ -7,8 +7,8 @@ import ReactCurse, {
   useSize,
 } from "react-curse";
 import { ESCAPE } from "./constants";
-import { theme } from "./theme";
-import { TScreen } from "./types";
+import type { TScreen } from "./types";
+import { useTheme } from "./useTheme";
 import { buildFrame } from "./utils";
 
 const icons: Record<string, string> = {
@@ -85,6 +85,7 @@ const Menu: React.FC<Props> = ({ isOpeningMenu, onScreenChange }) => {
     : OPTIONS_MENU;
 
   const { width: termWidth, height: termHeight } = useSize();
+  const { theme } = useTheme();
 
   const {
     frame,
@@ -138,6 +139,7 @@ const Menu: React.FC<Props> = ({ isOpeningMenu, onScreenChange }) => {
       height={backgroundHeight}
     >
       {frame}
+
       <Text absolute x={contentStartX + bannerPadding} y={bannerY}>
         <Banner color={theme.green}>COSMO</Banner>
       </Text>

@@ -1,72 +1,90 @@
 import { useCallback, useEffect, useState } from "react";
-import ReactCurse, { Text, useSize } from "react-curse";
+import ReactCurse, { useSize } from "react-curse";
 import Graph from "./graph";
 import Renderer from "./renderer";
-import { theme } from "./theme";
-import { TEdge, TNode } from "./types";
+import type { TEdge, TNode } from "./types";
+import { useTheme, type Colorscheme } from "./useTheme";
 
 type Props = {
   nodes?: TNode[];
   edges?: TEdge[];
   nodeWidth?: number;
   nodeHeight?: number;
+  file?: string;
+  colorscheme?: Colorscheme;
 };
 
-const App: React.FC<Props> = ({ nodes, edges }) => {
+const App: React.FC<Props> = ({ nodes, edges, file, colorscheme }) => {
+  const [isLoading, setIsLoading] = useState(true);
   const [graph, setGraph] = useState<Graph | undefined>(undefined);
+
+  const { theme, setTheme } = useTheme();
   const { width: termWidth, height: termHeight } = useSize();
 
-  // initialize graph on first graph / edges provided
-  useEffect(() => {
-    if (!nodes || !edges) {
-      return;
-    }
-
-    const initializeGraph = async () => {
+  const loadGraphFromNodesAndEdges = useCallback(
+    async (nodes: TNode[], edges: TEdge[]) => {
       const createdGraph = await Graph.create({
         nodes,
         edges,
         termSize: { width: termWidth, height: termHeight },
       });
       setGraph(createdGraph);
+    },
+    [colorscheme, termWidth, termHeight]
+  );
+
+  const loadGraphFromFile = useCallback(
+    async (file: string) => {
+      const createdGraph = await Graph.loadFromFile(file, {
+        termWidth,
+        termHeight,
+      });
+      if (createdGraph) {
+        setGraph(createdGraph);
+      }
+    },
+    [colorscheme, termWidth, termHeight]
+  );
+
+  const loadGraph = useCallback((newGraph: Graph) => {
+    setGraph(newGraph);
+  }, []);
+
+  // initialize graph on first graph / edges provided
+  useEffect(() => {
+    const loadGraph = async () => {
+      if (colorscheme) {
+        setTheme(colorscheme);
+      }
+      if (nodes && edges) {
+        await loadGraphFromNodesAndEdges(nodes, edges);
+      }
+      if (file) {
+        await loadGraphFromFile(file);
+      }
+      setIsLoading(false);
     };
-    initializeGraph();
-  }, [nodes, edges]);
+
+    loadGraph();
+  }, [colorscheme, file, nodes, edges]);
 
   // update terminal size in graph (for relative positioning)
   useEffect(() => {
     graph?.setTermSize(termWidth, termHeight);
   }, [termWidth, termHeight]);
 
-  const loadGraph = useCallback((newGraph: Graph) => {
-    setGraph(newGraph);
-  }, []);
-
-  // do not render if terminal size is invalid
-  if (termWidth < 1 || termHeight < 1) {
+  // wait for loading graph if any
+  if (isLoading) {
     return <></>;
   }
 
   return (
-    <>
-      {/* render background */}
-      <Text
-        absolute
-        x={0}
-        y={0}
-        width={termWidth}
-        height={termHeight}
-        background={theme.black}
-      ></Text>
-
-      {/* renderer */}
-      <Renderer
-        initialScreen={graph ? "" : "openingMenu"}
-        loadGraph={loadGraph}
-        graph={graph}
-      />
-    </>
+    <Renderer
+      initialScreen={graph ? "" : "openingMenu"}
+      loadGraph={loadGraph}
+      graph={graph}
+    />
   );
 };
 
-ReactCurse.render(<App />);
+export default (props?: Props) => ReactCurse.render(<App {...props} />);

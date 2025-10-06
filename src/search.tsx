@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Block, Input, ListTable, Text, useInput, useSize } from "react-curse";
 import Graph from "./graph";
-import { theme } from "./theme";
-import { TNode, TScreen } from "./types";
+import type { TNode, TScreen } from "./types";
+import { useTheme } from "./useTheme";
 
 // component width constraints
 const MAX_COMPONENT_WIDTH = 60;
@@ -18,7 +18,9 @@ const Search: React.FC<Props> = ({ graph, currentScreen, onScreenChange }) => {
   const [searchResults, setSearchResults] = useState<TNode[]>([]);
   const [searchIsFocused, setSearchIsFocused] = useState(true);
   const [focusedResultIndex, setFocusedResultIndex] = useState(0);
+
   const { width, height } = useSize();
+  const { theme } = useTheme();
 
   // on search opened, focus input
   useEffect(() => {
@@ -160,7 +162,7 @@ const Search: React.FC<Props> = ({ graph, currentScreen, onScreenChange }) => {
           }}
           // table headers
           renderHead={({ item, index, y, x }) =>
-            item.map((i, key) => (
+            item.map((i: string, key: string) => (
               <Text key={key} width={columnWidth} background={theme.black} bold>
                 {i}
               </Text>
@@ -168,7 +170,7 @@ const Search: React.FC<Props> = ({ graph, currentScreen, onScreenChange }) => {
           }
           // table rows
           renderItem={({ item, y, index }) =>
-            item.map((text, key) => (
+            item.map((text: string, key: string) => (
               <Text
                 key={key}
                 background={y === index ? theme.green : theme.brightBlack}

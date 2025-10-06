@@ -2,8 +2,8 @@ import fs from "fs";
 import React, { useCallback, useEffect, useState } from "react";
 import { Banner, Input, Text, useInput, useSize } from "react-curse";
 import { ESCAPE } from "./constants";
-import { theme } from "./theme";
-import { TScreen } from "./types";
+import type { TScreen } from "./types";
+import { useTheme } from "./useTheme";
 import { buildFrame } from "./utils";
 
 type Props = {
@@ -21,7 +21,9 @@ const Export: React.FC<Props> = ({
   currentDir,
   onExport,
 }) => {
+  const { theme } = useTheme();
   const { width: termWidth, height: termHeight } = useSize();
+
   const [filename, setFilename] = useState(currentDir);
   const [error, setError] = useState<string>("");
   const [counter, setCounter] = useState(0); // used for resetting Input
