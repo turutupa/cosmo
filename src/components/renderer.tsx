@@ -1,19 +1,19 @@
 import React, { useCallback, useEffect, useState } from "react";
 import ReactCurse, { Text, useInput, useSize } from "react-curse";
+import { ESCAPE } from "../constants";
+import Graph from "../graph";
+import { useTheme } from "../hooks/useTheme";
+import type { TNode, TScreen } from "../types";
 import About from "./about";
-import { ESCAPE } from "./constants";
 import Cursor from "./cursor";
 import Edge from "./edge";
 import Export from "./export";
 import Files from "./files";
-import Graph from "./graph";
 import Keybindings from "./keybindings";
 import Menu from "./menu";
 import Node from "./node";
 import Search from "./search";
 import StatusLine from "./statusline";
-import type { TNode, TScreen } from "./types";
-import { useTheme } from "./useTheme";
 
 type Props = {
   initialScreen: TScreen;

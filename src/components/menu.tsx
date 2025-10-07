@@ -6,10 +6,10 @@ import ReactCurse, {
   useInput,
   useSize,
 } from "react-curse";
-import { ESCAPE } from "./constants";
-import type { TScreen } from "./types";
-import { useTheme } from "./useTheme";
-import { buildFrame } from "./utils";
+import { ESCAPE } from "../constants";
+import { useTheme } from "../hooks/useTheme";
+import type { TScreen } from "../types";
+import { buildFrame } from "../utils";
 
 const icons: Record<string, string> = {
   "Open file": "",

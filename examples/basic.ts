@@ -1,4 +1,4 @@
-import Cosmo from "../src/app";
+import { cosmo } from "../index";
 import { TEdge, TNode } from "../src/types";
 
 const app = async () => {
@@ -13,7 +13,7 @@ const app = async () => {
     { id: "be2", source: "b1", target: "b3" },
   ];
 
-  Cosmo({ nodes, edges });
+  cosmo({ nodes, edges });
 };
 
 app();

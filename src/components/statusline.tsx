@@ -1,4 +1,5 @@
 import { Frame, Text } from "react-curse";
+import { useTheme } from "../hooks/useTheme";
 
 type TStatusLineItem = {
   label: string;
@@ -12,13 +13,14 @@ type Props = {
 };
 
 const StatusLine: React.FC<Props> = ({ nodeCount, edgeCount }) => {
+  const { theme } = useTheme();
   const statusLineItems: TStatusLineItem[] = [
     { label: "Nodes:", value: nodeCount, color: "Green" },
     { label: "Edges:", value: edgeCount, color: "Green" },
   ];
 
   return (
-    <Text absolute x={0} y={0}>
+    <Text absolute x={0} y={0} background={theme.black}>
       <Frame>
         {statusLineItems.map((item, index) => (
           <Text key={index}>

@@ -1,16 +1,33 @@
 {
   "name": "react-curse-app",
   "version": "1.0.0",
-  "main": "index.ts",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "tsx bin/cli.ts",
-    "build:cli": "esbuild bin/cli.ts --bundle --platform=node --format=esm --outfile=dist/cli.js --external:react-curse",
-    "link:cli": "npm run build:cli && npm i -g ."
+    "build": "rollup -c rollup.config.mjs",
+    "postbuild": "chmod +x dist/cjs/cli.cjs",
+    "link": "npm run build && chmod +x dist/cjs/cli.cjs && npm i -g ."
   },
   "bin": {
-    "cosmo": "./.dist/index.js"
+    "cosmo": "./dist/cjs/cli.cjs"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./cli": {
+      "require": "./dist/cjs/cli.cjs"
+    }
+  },
+  "overrides": {
+    "dist/cli.js": {
+      "type": "commonjs"
+    }
   },
   "dependencies": {
     "@types/meow": "^6.0.0",
@@ -24,7 +41,14 @@
     "@types/node": "^18.11.18",
     "@types/react": "^18.0.27",
     "esbuild": "^0.25.10",
+    "rollup": "^4.52.4",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-typescript": "^1.0.1",
+    "rollup-plugin-typescript2": "^0.34.1",
     "tsx": "^4.20.5",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-commonjs": "^25.0.0"
   }
 }

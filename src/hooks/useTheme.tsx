@@ -38,7 +38,7 @@ const themes: Record<string, TTheme> = {
     yellow: "#f1fa8c",
     cyan: "#8be9fd",
   },
-  atomOne: {
+  atom: {
     white: "#abb2bf",
     brightWhite: "#ffffff",
     black: "#282c34",

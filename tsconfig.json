@@ -15,7 +15,11 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "jsx": "react-jsx",
-    "noEmit": true
+    "declaration": true,
+    "declarationDir": "dist/types",
+    "outDir": "dist",
+    "noEmit": false,
+    "rootDir": "."
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "dist"]
 }

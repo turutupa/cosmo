@@ -1,9 +1,9 @@
 import React from "react";
 import { Text, useSize } from "react-curse";
+import { useTheme } from "../hooks/useTheme";
+import type { TCoordinate, TNode } from "../types";
+import { getPath } from "../utils";
 import { DEFAULT_NODE_WIDTH } from "./node";
-import type { TCoordinate, TNode } from "./types";
-import { useTheme } from "./useTheme";
-import { getPath } from "./utils";
 
 type Props = {
   id: string;

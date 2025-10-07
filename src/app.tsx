@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import ReactCurse, { useSize } from "react-curse";
+import Renderer from "./components/renderer";
 import Graph from "./graph";
-import Renderer from "./renderer";
+import { useTheme, type Colorscheme } from "./hooks/useTheme";
 import type { TEdge, TNode } from "./types";
-import { useTheme, type Colorscheme } from "./useTheme";
 
 type Props = {
   nodes?: TNode[];

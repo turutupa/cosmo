@@ -1,7 +1,8 @@
 import { Banner, Text, useInput, useSize } from "react-curse";
-import type { TScreen } from "./types";
-import { useTheme } from "./useTheme";
-import { buildFrame } from "./utils";
+import { useTheme } from "../hooks/useTheme";
+import type { TScreen } from "../types";
+import { buildFrame } from "../utils";
+import Modal from "./modal";
 
 type TKeybinding = {
   action: string;
@@ -29,7 +30,7 @@ const Keybindings: React.FC<Props> = ({ onScreenChange }) => {
   const { width: termWidth, height: termHeight } = useSize();
   const { theme } = useTheme();
 
-  const { frame, startX, startY, contentStartX, bannerY, listY } = buildFrame(
+  const { contentStartX, bannerY, listY } = buildFrame(
     keybindingsInfo.length + 2, // extra space for heading/description
     termWidth,
     termHeight,
@@ -48,26 +49,23 @@ const Keybindings: React.FC<Props> = ({ onScreenChange }) => {
     Math.max(...keybindingsInfo.map((k) => k.action.length)) + 4; // padding
 
   return (
-    <Text absolute x={startX} y={startY} background={theme.black}>
-      {/* render frame */}
-      {frame}
-
+    <Modal footer={"Press Escape to go back"}>
       {/* render banner */}
       <Banner
         color={theme.green}
         absolute
         x={contentStartX + bannerPadding}
-        y={bannerY}
+        y={bannerY - 2}
       >
         KEYBINDS
       </Banner>
 
       {/* render text */}
-      <Text absolute x={contentStartX + contentPadding + 3} y={listY}>
+      <Text absolute x={contentStartX + contentPadding + 3} y={listY - 2}>
         Navigation and editing shortcuts:
       </Text>
 
-      <Text absolute x={contentStartX + contentPadding} y={listY + 2}>
+      <Text absolute x={contentStartX + contentPadding} y={listY}>
         {/* render keybindings table header */}
         <Text>
           <Text
@@ -98,24 +96,14 @@ const Keybindings: React.FC<Props> = ({ onScreenChange }) => {
             block
             absolute
             x={contentStartX + contentPadding}
-            y={listY + 3 + i}
+            y={listY + 1 + i}
           >
             <Text width={actionColWidth}> {kb.action}</Text>
             <Text color={theme.green}>{kb.keys.join(", ")}</Text>
           </Text>
         ))}
       </Text>
-
-      {/* render escape to exit */}
-      <Text
-        absolute
-        x={contentStartX + contentPadding + 6}
-        y={listY + 3 + keybindingsInfo.length + 2}
-      >
-        {" "}
-        Press Escape to go back{" "}
-      </Text>
-    </Text>
+    </Modal>
   );
 };
 

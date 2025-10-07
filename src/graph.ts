@@ -2,7 +2,7 @@ import ELK from "elkjs/lib/elk.bundled";
 import fs from "fs/promises";
 import path from "path";
 import YAML from "yaml";
-import { DEFAULT_NODE_WIDTH, FRAME_HEIGHT } from "./node";
+import { DEFAULT_NODE_WIDTH, FRAME_HEIGHT } from "./components/node";
 import type { TCoordinate, TEdge, TNode } from "./types";
 
 type Props = {

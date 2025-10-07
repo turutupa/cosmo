@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Block, Input, ListTable, Text, useInput, useSize } from "react-curse";
-import Graph from "./graph";
-import type { TNode, TScreen } from "./types";
-import { useTheme } from "./useTheme";
+import Graph from "../graph";
+import { useTheme } from "../hooks/useTheme";
+import type { TNode, TScreen } from "../types";
 
 // component width constraints
 const MAX_COMPONENT_WIDTH = 60;

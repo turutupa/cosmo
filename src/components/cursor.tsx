@@ -1,5 +1,5 @@
 import { Text } from "react-curse";
-import { useTheme } from "./useTheme";
+import { useTheme } from "../hooks/useTheme";
 
 // const ASCII = "·";
 const ASCII = "+";

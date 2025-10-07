@@ -1,7 +1,8 @@
 import { Banner, Text, useInput, useSize } from "react-curse";
-import type { TScreen } from "./types";
-import { useTheme } from "./useTheme";
-import { buildFrame } from "./utils";
+import { useTheme } from "../hooks/useTheme";
+import type { TScreen } from "../types";
+import { buildFrame } from "../utils";
+import Modal from "./modal";
 
 type Props = {
   onScreenChange: (screen: TScreen) => void;
@@ -30,7 +31,7 @@ const About: React.FC<Props> = ({ onScreenChange }) => {
   const { width: termWidth, height: termHeight } = useSize();
 
   const contentHeight = aboutLines.length + 2; // padding under banner
-  const { frame, startX, startY, contentStartX, bannerY, listY } = buildFrame(
+  const { contentStartX, bannerY, listY } = buildFrame(
     contentHeight,
     termWidth,
     termHeight,
@@ -47,10 +48,7 @@ const About: React.FC<Props> = ({ onScreenChange }) => {
   });
 
   return (
-    <Text absolute x={startX} y={startY} background={theme.black}>
-      {/* render frame */}
-      {frame}
-
+    <Modal footer="Press Escape to go back">
       {/* render banner */}
       <Banner
         color={theme.green}
@@ -88,17 +86,7 @@ const About: React.FC<Props> = ({ onScreenChange }) => {
           </Text>
         );
       })}
-
-      {/* render escape to exit */}
-      <Text
-        absolute
-        x={contentStartX + contentPadding + 22}
-        y={listY + aboutLines.length + 5}
-      >
-        {" "}
-        Press Escape to go back{" "}
-      </Text>
-    </Text>
+    </Modal>
   );
 };
 

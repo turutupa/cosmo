@@ -10,10 +10,11 @@ import {
   useInput,
   useSize,
 } from "react-curse";
-import { ESCAPE, FILE_ICON, FOLDER_ICON } from "./constants";
-import type { TScreen } from "./types";
-import { useTheme } from "./useTheme";
-import { buildFrame } from "./utils";
+import { ESCAPE, FILE_ICON, FOLDER_ICON } from "../constants";
+import { useTheme } from "../hooks/useTheme";
+import type { TScreen } from "../types";
+import { buildFrame } from "../utils";
+import Modal from "./modal";
 
 type TEntry = {
   label: string; // shown label
@@ -24,7 +25,7 @@ type TEntry = {
 };
 
 type Props = {
-  onSelect: (filePath: string) => void | Promise<void>; // allow async
+  onSelect: (filePath: string) => void | Promise<void>;
   onScreenChange: (string: TScreen) => void;
   startDir?: string;
 };
@@ -250,15 +251,12 @@ const Files: React.FC<Props> = ({ onSelect, onScreenChange, startDir }) => {
     4;
   const modalWidth = Math.min(Math.max(40, longest + 4), termWidth - 4);
   const contentHeight = 16; // hard-coded: 20 list + 4 other
-  const {
-    frame,
-    startX,
-    startY,
-    contentStartX,
-    listY,
-    bannerY, // bannerY unused; reuse structure for consistency
-    backgroundHeight,
-  } = buildFrame(contentHeight, termWidth, termHeight, modalWidth);
+  const { contentStartX, listY, bannerY, backgroundHeight } = buildFrame(
+    contentHeight,
+    termWidth,
+    termHeight,
+    modalWidth
+  );
 
   const listX = contentStartX + 1;
   const listWidth = 40;
@@ -268,22 +266,23 @@ const Files: React.FC<Props> = ({ onSelect, onScreenChange, startDir }) => {
   const contentPadding = 0;
 
   return (
-    <Text absolute x={startX} y={startY} background={theme.black}>
-      {/* render frame */}
-      {frame}
-
+    <Modal
+      pr={16}
+      pb={15}
+      footer={`Search: / | Navigate: Ctrl+n/p ↑/↓ | Esc: Go Back`}
+    >
       {/* render banner */}
-      <Text absolute x={contentStartX + bannerPadding} y={bannerY}>
+      <Text absolute x={contentStartX + bannerPadding} y={bannerY - 1}>
         <Banner color={theme.green}>{title}</Banner>
       </Text>
 
       {/* render current path */}
-      <Text absolute x={listX} y={listY + 1} color={theme.yellow}>
+      <Text absolute x={listX} y={listY - 1} color={theme.yellow}>
         {currentPath}
       </Text>
 
       {/* render list of files */}
-      <Text absolute x={listX + contentPadding} y={listY + 3}>
+      <Text absolute x={listX + contentPadding} y={listY + 1}>
         <List
           key={`${JSON.stringify(
             filteredEntries.map((e) => e.fullPath)
@@ -324,7 +323,7 @@ const Files: React.FC<Props> = ({ onSelect, onScreenChange, startDir }) => {
 
       {/* filter input */}
       {searchMode && (
-        <Text absolute x={listX} y={backgroundHeight + 14} color={theme.yellow}>
+        <Text absolute x={listX} y={listY - 1} color={theme.yellow}>
           <Input
             key={`filter-input-${searchInputKey}`}
             width={listWidth}
@@ -347,16 +346,13 @@ const Files: React.FC<Props> = ({ onSelect, onScreenChange, startDir }) => {
         <Text
           absolute
           x={listX + contentPadding}
-          y={backgroundHeight + 14}
+          y={backgroundHeight + 11}
           color={theme.red}
         >
           {error}
         </Text>
       )}
-      <Text absolute x={listX - 6} y={backgroundHeight + 16}>
-        {` Search: / | Navigate: Ctrl+n/p ↑/↓ | Esc: Go Back `}
-      </Text>
-    </Text>
+    </Modal>
   );
 };
 

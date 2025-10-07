@@ -1,10 +1,11 @@
 import fs from "fs";
 import React, { useCallback, useEffect, useState } from "react";
 import { Banner, Input, Text, useInput, useSize } from "react-curse";
-import { ESCAPE } from "./constants";
-import type { TScreen } from "./types";
-import { useTheme } from "./useTheme";
-import { buildFrame } from "./utils";
+import { ESCAPE } from "../constants";
+import { useTheme } from "../hooks/useTheme";
+import type { TScreen } from "../types";
+import { buildFrame } from "../utils";
+import Modal from "./modal";
 
 type Props = {
   format: "yaml" | "json";
@@ -140,13 +141,11 @@ const Export: React.FC<Props> = ({
     : " Enter to export | Esc cancel ";
 
   return (
-    <Text absolute x={startX} y={startY} background={theme.black}>
-      {frame}
-
+    <Modal footer={helpText} pt={-20}>
       <Banner
         absolute
         x={contentStartX + bannerPadding}
-        y={bannerY}
+        y={bannerY - 2}
         color={theme.green}
       >
         EXPORT
@@ -155,24 +154,24 @@ const Export: React.FC<Props> = ({
       {!confirming && (
         <>
           {/* filename label */}
-          <Text absolute x={contentStartX} y={listY} color={theme.yellow}>
+          <Text absolute x={contentStartX} y={listY - 2} color={theme.yellow}>
             {label}
           </Text>
 
           {/* input */}
-          <Text absolute x={contentStartX} y={listY + 1}>
+          <Text absolute x={contentStartX} y={listY - 1}>
             <Input
               key={`export-input-${counter}`}
               width={inputWidth}
               height={1}
-              background="#303030"
+              background={theme.brightBlack}
               initialValue={filename}
               onChange={setFilename}
               onSubmit={onSubmit}
               onCancel={() => onScreenChange("")}
               focus
             />
-            <Text absolute x={contentStartX + inputWidth} y={listY + 1}>
+            <Text absolute x={contentStartX + inputWidth} y={listY - 1}>
               .{format}
             </Text>
           </Text>
@@ -186,16 +185,17 @@ const Export: React.FC<Props> = ({
             x={
               startX + Math.max(0, Math.floor((76 - overwriteLabel.length) / 2))
             }
-            y={listY}
+            y={listY - 1}
             color={theme.yellow}
           >
             {overwriteLabel}
           </Text>
+
           {/* Centered overwrite choice buttons (total width = 10 + 2 + 10 = 22) */}
           <Text
             absolute
             x={startX + Math.floor((76 - 22) / 2)}
-            y={listY + 2}
+            y={listY + 1}
             width={10}
             height={1}
             color={theme.white}
@@ -206,7 +206,7 @@ const Export: React.FC<Props> = ({
           <Text
             absolute
             x={startX + Math.floor((76 - 22) / 2) + 12} // 10 width + 2 space gap
-            y={listY + 2}
+            y={listY + 1}
             width={10}
             height={1}
             color={theme.black}
@@ -222,18 +222,13 @@ const Export: React.FC<Props> = ({
           absolute
           // Center within total frame width of 76
           x={startX + Math.max(0, Math.floor((76 - error.length) / 2))}
-          y={listY + 3}
+          y={listY + 1}
           color={theme.red}
         >
           {error}
         </Text>
       )}
-
-      {/* help line */}
-      <Text absolute x={contentStartX + 14} y={listY + 5}>
-        {helpText}
-      </Text>
-    </Text>
+    </Modal>
   );
 };
 

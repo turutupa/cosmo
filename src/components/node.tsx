@@ -1,7 +1,7 @@
 import React from "react";
 import { Block, Frame, Text } from "react-curse";
-import type { TCoordinate, TNode } from "./types";
-import { useTheme } from "./useTheme";
+import { useTheme } from "../hooks/useTheme";
+import type { TCoordinate, TNode } from "../types";
 
 export const DEFAULT_NODE_WIDTH = 16;
 export const FRAME_HEIGHT = 5; // top border + content + bottom

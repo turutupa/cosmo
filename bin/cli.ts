@@ -5,9 +5,9 @@ import meow from "meow";
 
 import fs from "fs";
 import path from "path";
-import Cosmo from "../src/app";
+import { cosmo } from "../index"; // use package entry so built CLI uses compiled code
 
-const AVAILABLE_THEMES = ["aura", "dracula", "atomOne", "catppuccin"] as const;
+const AVAILABLE_THEMES = ["aura", "dracula", "atom", "catppuccin"] as const;
 
 const cli = meow(
   `
@@ -53,7 +53,7 @@ async function main() {
   }
 
   // Run the app with optional file and selected theme
-  await Cosmo({ file: filePath, colorscheme: colorscheme });
+  await cosmo({ file: filePath, colorscheme: colorscheme });
 }
 
 main().catch((err) => {
