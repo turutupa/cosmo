@@ -39,14 +39,12 @@ const Export: React.FC<Props> = ({
 
   const frameInnerWidth = Math.max(20, Math.min(MAX_WIDTH, termWidth - 4)) - 2;
   const contentHeight = 2;
-  const {
-    frame,
-    startX,
-    startY,
-    contentStartX,
-    bannerY,
-    listY, // reuse for vertical placement
-  } = buildFrame(contentHeight, termWidth, termHeight, MAX_WIDTH);
+  const { startX, contentStartX, bannerY, listY } = buildFrame(
+    contentHeight,
+    termWidth,
+    termHeight,
+    MAX_WIDTH
+  );
 
   const onSubmit = useCallback(
     (targetPath: string) => {
