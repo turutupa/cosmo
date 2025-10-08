@@ -346,7 +346,7 @@ const Files: React.FC<Props> = ({ onSelect, onScreenChange, startDir }) => {
         <Text
           absolute
           x={listX + contentPadding}
-          y={backgroundHeight + 11}
+          y={backgroundHeight + 12}
           color={theme.red}
         >
           {error}
