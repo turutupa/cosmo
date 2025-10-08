@@ -51,6 +51,7 @@ const Themer: React.FC<Props> = ({ onScreenChange }) => {
       setCommittedTheme(name);
       committedRef.current = true;
       originalPersistedThemeRef.current = name;
+      onScreenChange("");
     }
   }, [selectedIndex, themeNames, saveTheme]);
 
