@@ -10,6 +10,7 @@ import { ESCAPE } from "../constants";
 import { useTheme } from "../hooks/useTheme";
 import type { TScreen } from "../types";
 import { buildFrame } from "../utils";
+import Modal from "./modal";
 
 const icons: Record<string, string> = {
   "Open file": "",
@@ -92,15 +93,11 @@ const Menu: React.FC<Props> = ({ isOpeningMenu, onScreenChange }) => {
   const { width: termWidth, height: termHeight } = useSize();
   const { theme } = useTheme();
 
-  const {
-    frame,
-    startX,
-    startY,
-    contentStartX,
-    bannerY,
-    listY,
-    backgroundHeight,
-  } = buildFrame(menuOptions.length, termWidth, termHeight);
+  const { contentStartX, bannerY, listY } = buildFrame(
+    menuOptions.length,
+    termWidth,
+    termHeight
+  );
   const bannerPadding = 1;
 
   useInput((input: string) => {
@@ -138,20 +135,11 @@ const Menu: React.FC<Props> = ({ isOpeningMenu, onScreenChange }) => {
   };
 
   return (
-    <Text
-      absolute
-      x={startX}
-      y={startY}
-      background={theme.black}
-      width={22}
-      height={backgroundHeight}
-    >
-      {frame}
-
-      <Text absolute x={contentStartX + bannerPadding} y={bannerY}>
+    <Modal pt={6} footer={"Press Escape to exit menu"} size="xl">
+      <Text absolute x={contentStartX + bannerPadding} y={bannerY - 1}>
         <Banner color={theme.green}>COSMO</Banner>
       </Text>
-      <Text absolute x={contentStartX} y={listY}>
+      <Text absolute x={contentStartX} y={listY - 1}>
         <List
           data={menuOptions}
           onSubmit={onSubmit}
@@ -164,11 +152,7 @@ const Menu: React.FC<Props> = ({ isOpeningMenu, onScreenChange }) => {
           )}
         />
       </Text>
-      <Text absolute x={contentStartX - 3} y={listY + menuOptions.length + 1}>
-        {" "}
-        Press Escape to exit menu{" "}
-      </Text>
-    </Text>
+    </Modal>
   );
 };
 
