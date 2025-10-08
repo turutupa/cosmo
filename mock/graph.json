@@ -1,6 +1,8 @@
 {
   "version": 1,
   "nodes": [
+    { "id": "island", "value": "Island" },
+    { "id": "island-child", "value": "Subisland" },
     { "id": "n1", "value": "Parent" },
     { "id": "n2", "value": "Child 1" },
     {
@@ -32,6 +34,7 @@
     { "id": "n26", "value": "Side C2" }
   ],
   "edges": [
+    { "id": "i1", "source": "island", "target": "island-child" },
     { "id": "c1", "source": "n1", "target": "n2" },
     { "id": "c2", "source": "n1", "target": "n3" },
     { "id": "c3", "source": "n3", "target": "n4" },

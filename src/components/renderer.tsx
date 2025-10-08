@@ -14,6 +14,7 @@ import Menu from "./menu";
 import Node from "./node";
 import Search from "./search";
 import StatusLine from "./statusline";
+import Themer from "./themer";
 
 type Props = {
   initialScreen: TScreen;
@@ -240,6 +241,9 @@ const Renderer: React.FC<Props> = ({
       {currentScreen === "keybindings" && (
         <Keybindings onScreenChange={onScreenChange} />
       )}
+
+      {/* themer */}
+      {currentScreen === "themer" && <Themer onScreenChange={onScreenChange} />}
 
       {/* about */}
       {currentScreen === "about" && <About onScreenChange={onScreenChange} />}

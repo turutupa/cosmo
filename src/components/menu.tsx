@@ -15,8 +15,9 @@ const icons: Record<string, string> = {
   "Open file": "",
   "Export YAML": "",
   "Export JSON": "{",
-  About: "",
   Keybindings: "",
+  Colorschemes: "",
+  About: "",
   Quit: "",
 };
 
@@ -24,8 +25,9 @@ const shortcutIcons: Record<string, string> = {
   "Open file": "o",
   "Export YAML": "y",
   "Export JSON": "u",
-  About: "a",
   Keybindings: "s",
+  Colorschemes: "c",
+  About: "a",
   Quit: "q",
 };
 
@@ -33,8 +35,9 @@ const screens: Record<string, TScreen> = {
   "Open file": "openFile",
   "Export YAML": "exportYAML",
   "Export JSON": "exportJSON",
-  About: "about",
   Keybindings: "keybindings",
+  Colorschemes: "themer",
+  About: "about",
   Quit: "",
 };
 
@@ -49,6 +52,7 @@ type TOpeningMenuItem = {
 const OPENING_MENU: TOpeningMenuItem[] = [
   "Open file",
   "Keybindings",
+  "Colorschemes",
   "About",
   "Quit",
 ].map((title, index) => ({
@@ -64,6 +68,7 @@ const OPTIONS_MENU: TOpeningMenuItem[] = [
   "Export YAML",
   "Export JSON",
   "Keybindings",
+  "Colorschemes",
   "About",
   "Quit",
 ].map((title, index) => ({
@@ -109,6 +114,8 @@ const Menu: React.FC<Props> = ({ isOpeningMenu, onScreenChange }) => {
       ReactCurse.exit();
     } else if (input === "s") {
       onScreenChange("keybindings");
+    } else if (input === "c") {
+      onScreenChange("themer");
     } else if (input === "a") {
       onScreenChange("about");
     } else if (input === "o") {
@@ -125,6 +132,7 @@ const Menu: React.FC<Props> = ({ isOpeningMenu, onScreenChange }) => {
     menuOptions[y].title === "Export YAML" && onScreenChange("exportYAML");
     menuOptions[y].title === "Export JSON" && onScreenChange("exportJSON");
     menuOptions[y].title === "Keybindings" && onScreenChange("keybindings");
+    menuOptions[y].title === "Colorschemes" && onScreenChange("themer");
     menuOptions[y].title === "About" && onScreenChange("about");
     menuOptions[y].title === "Quit" && ReactCurse.exit();
   };

@@ -130,7 +130,7 @@ const Search: React.FC<Props> = ({ graph, currentScreen, onScreenChange }) => {
           onCancel={() => onScreenChange("")}
           onChange={onInputChange}
           onSubmit={onSubmit}
-          background="#404040"
+          background={theme.brightBlack}
           height={1}
           width={componentWidth}
           focus={searchIsFocused}

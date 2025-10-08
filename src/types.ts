@@ -38,6 +38,7 @@ export type TScreen =
   | "openingMenu"
   | "optionsMenu"
   | "keybindings"
+  | "themer"
   | "about"
   | "search"
   | "";

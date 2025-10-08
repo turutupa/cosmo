@@ -18,7 +18,7 @@ const App: React.FC<Props> = ({ nodes, edges, file, colorscheme }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [graph, setGraph] = useState<Graph | undefined>(undefined);
 
-  const { theme, setTheme } = useTheme();
+  const { setTheme } = useTheme();
   const { width: termWidth, height: termHeight } = useSize();
 
   const loadGraphFromNodesAndEdges = useCallback(

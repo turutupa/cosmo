@@ -11,6 +11,8 @@ type Props = {
   pl?: number;
   pr?: number;
   size?: "sm" | "md" | "lg" | "xl" | "fullscreen";
+  background?: string;
+  hideBorders?: boolean;
 };
 
 const sizePresets: Record<
@@ -32,6 +34,8 @@ const Modal: React.FC<Props> = ({
   pl = 0,
   pr = 0,
   size = "md",
+  background,
+  hideBorders = false,
 }) => {
   const { theme } = useTheme();
   const { width: termWidth, height: termHeight } = useSize();
@@ -72,10 +76,6 @@ const Modal: React.FC<Props> = ({
     modalWidth = termWidth;
     modalHeight = termHeight;
   }
-
-  // Compute padded content origin (inside frame if present)
-  const contentX = isFullscreen ? padLeft : x + 1 + padLeft;
-  const contentY = isFullscreen ? padTop : y + 1 - 999;
 
   // frame (omit in fullscreen)
   const frame = isFullscreen ? null : buildFrame(x, y, modalWidth, modalHeight);
@@ -130,7 +130,14 @@ const Modal: React.FC<Props> = ({
   }
 
   return (
-    <Text absolute x={x} y={y} background={theme.black}>
+    <Text
+      absolute
+      x={x}
+      y={y}
+      background={background ?? theme.black}
+      width={modalWidth}
+      height={modalHeight - 1}
+    >
       {isFullscreen && (
         <Text
           absolute
@@ -143,7 +150,7 @@ const Modal: React.FC<Props> = ({
       )}
 
       {/* render frame */}
-      {frame}
+      {!hideBorders && frame}
 
       {/* content area (now honors per-side padding) */}
       {children}

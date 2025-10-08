@@ -6,6 +6,7 @@ import meow from "meow";
 import fs from "fs";
 import path from "path";
 import { cosmo } from "../index"; // use package entry so built CLI uses compiled code
+import { Colorscheme } from "../src/hooks/useTheme";
 
 const AVAILABLE_THEMES = ["aura", "dracula", "atom", "catppuccin"] as const;
 
@@ -26,7 +27,7 @@ const cli = meow(
     importMeta: import.meta,
     flags: {
       file: { type: "string" },
-      colorscheme: { type: "string", default: "aura" },
+      colorscheme: { type: "string" },
     },
   }
 );
@@ -44,9 +45,9 @@ async function main() {
     }
   }
 
-  const colorscheme = cli.flags.colorscheme as string;
+  const colorscheme = cli.flags.colorscheme as Colorscheme;
 
-  if (!AVAILABLE_THEMES.includes(colorscheme as any)) {
+  if (colorscheme && !AVAILABLE_THEMES.includes(colorscheme as any)) {
     console.error(`\n❌ Invalid theme: "${colorscheme}"`);
     console.error(`Available themes: ${AVAILABLE_THEMES.join(", ")}`);
     process.exit(1);

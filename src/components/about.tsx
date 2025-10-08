@@ -48,13 +48,13 @@ const About: React.FC<Props> = ({ onScreenChange }) => {
   });
 
   return (
-    <Modal footer="Press Escape to go back">
+    <Modal footer="Press Escape to go back" size="lg">
       {/* render banner */}
       <Banner
         color={theme.green}
         absolute
         x={contentStartX + bannerPadding}
-        y={bannerY}
+        y={bannerY - 1}
       >
         COSMO
       </Banner>
@@ -72,7 +72,7 @@ const About: React.FC<Props> = ({ onScreenChange }) => {
           const prefix = line.slice(0, colonIdx + 1);
           const suffix = line.slice(colonIdx + 1);
           return (
-            <Text absolute x={x} y={y} key={key}>
+            <Text absolute x={x} y={y - 1} key={key}>
               <Text color={theme.green}>{prefix}</Text>
               <Text>{suffix}</Text>
             </Text>
@@ -81,7 +81,7 @@ const About: React.FC<Props> = ({ onScreenChange }) => {
 
         // render normal line
         return (
-          <Text absolute x={x} y={y} key={key}>
+          <Text absolute x={x} y={y - 1} key={key}>
             {line}
           </Text>
         );

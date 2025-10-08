@@ -1,0 +1,245 @@
+nodes:
+  - id: b1
+    value: Root
+    position:
+      x: 97
+      y: 20
+  - id: b2
+    value: L1 - L
+    position:
+      x: 53
+      y: 32
+  - id: b3
+    value: L1 - R
+    position:
+      x: 141
+      y: 32
+  - id: b4
+    value: L2 - LL
+    position:
+      x: 31
+      y: 44
+  - id: b5
+    value: L2 - LR
+    position:
+      x: 75
+      y: 44
+  - id: b6
+    value: L2 - RL
+    position:
+      x: 119
+      y: 44
+  - id: b7
+    value: L2 - RR
+    position:
+      x: 163
+      y: 44
+  - id: b8
+    value: L3 - LLL
+    position:
+      x: 20
+      y: 56
+  - id: b9
+    value: L3 - LLR
+    position:
+      x: 42
+      y: 56
+  - id: b10
+    value: L3 - LRL
+    position:
+      x: 64
+      y: 56
+  - id: b11
+    value: L3 - LRR
+    position:
+      x: 86
+      y: 56
+  - id: b12
+    value: L3 - RLL
+    position:
+      x: 108
+      y: 56
+  - id: b13
+    value: L3 - RLR
+    position:
+      x: 130
+      y: 56
+  - id: b14
+    value: L3 - RRL
+    position:
+      x: 152
+      y: 56
+  - id: b15
+    value: L3 - RRR
+    position:
+      x: 174
+      y: 56
+edges:
+  - id: be1
+    source: b1
+    target: b2
+    path:
+      - x: 102
+        y: 26
+      - x: 102
+        y: 29
+      - x: 65
+        y: 31
+      - x: 61
+        y: 32
+  - id: be2
+    source: b1
+    target: b3
+    path:
+      - x: 108
+        y: 26
+      - x: 108
+        y: 29
+      - x: 146
+        y: 31
+      - x: 149
+        y: 32
+  - id: be3
+    source: b2
+    target: b4
+    path:
+      - x: 58
+        y: 38
+      - x: 58
+        y: 41
+      - x: 43
+        y: 43
+      - x: 39
+        y: 44
+  - id: be4
+    source: b2
+    target: b5
+    path:
+      - x: 64
+        y: 38
+      - x: 64
+        y: 41
+      - x: 80
+        y: 43
+      - x: 83
+        y: 44
+  - id: be5
+    source: b3
+    target: b6
+    path:
+      - x: 146
+        y: 38
+      - x: 146
+        y: 41
+      - x: 131
+        y: 43
+      - x: 127
+        y: 44
+  - id: be6
+    source: b3
+    target: b7
+    path:
+      - x: 152
+        y: 38
+      - x: 152
+        y: 41
+      - x: 168
+        y: 43
+      - x: 171
+        y: 44
+  - id: be7
+    source: b4
+    target: b8
+    path:
+      - x: 36
+        y: 50
+      - x: 36
+        y: 53
+      - x: 32
+        y: 55
+      - x: 28
+        y: 56
+  - id: be8
+    source: b4
+    target: b9
+    path:
+      - x: 42
+        y: 50
+      - x: 42
+        y: 53
+      - x: 47
+        y: 55
+      - x: 50
+        y: 56
+  - id: be9
+    source: b5
+    target: b10
+    path:
+      - x: 80
+        y: 50
+      - x: 80
+        y: 53
+      - x: 76
+        y: 55
+      - x: 72
+        y: 56
+  - id: be10
+    source: b5
+    target: b11
+    path:
+      - x: 86
+        y: 50
+      - x: 86
+        y: 53
+      - x: 91
+        y: 55
+      - x: 94
+        y: 56
+  - id: be11
+    source: b6
+    target: b12
+    path:
+      - x: 124
+        y: 50
+      - x: 124
+        y: 53
+      - x: 120
+        y: 55
+      - x: 116
+        y: 56
+  - id: be12
+    source: b6
+    target: b13
+    path:
+      - x: 130
+        y: 50
+      - x: 130
+        y: 53
+      - x: 135
+        y: 55
+      - x: 138
+        y: 56
+  - id: be13
+    source: b7
+    target: b14
+    path:
+      - x: 168
+        y: 50
+      - x: 168
+        y: 53
+      - x: 164
+        y: 55
+      - x: 160
+        y: 56
+  - id: be14
+    source: b7
+    target: b15
+    path:
+      - x: 174
+        y: 50
+      - x: 174
+        y: 53
+      - x: 179
+        y: 55
+      - x: 182
+        y: 56
