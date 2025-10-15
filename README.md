@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="images/banner.png" alt="file explorer" />
+  <p align="center">
+  <img src="images/banner.png" alt="Cosmo banner" style="object-fit:cover; width:100%; height:300px; object-position:center;">
 </p>
-
-<h1 align="center">CosmoFlow</h1>
+</p>
 
 <p align="center">
   Visualize and explore graphs and trees right in your terminal. Fast, interactive, and easy to use for understanding your data.
