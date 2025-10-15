@@ -23,7 +23,7 @@
 
 `CosmoFlow` provides a fast and interactive way to explore node/edge data structures directly in your terminal. Whether you point it at a JSON/YAML file or use it programmatically, you can smoothly navigate large hierarchies and general graphs.
 
-![Demo animation](images/demo.gif)
+![Demo animation](images/preview.gif)
 
 <img src="images/preview.png" alt="example" />
 
