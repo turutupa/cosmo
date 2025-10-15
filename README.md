@@ -136,6 +136,7 @@ The `nodes` array should contain objects with an `id` and a `value`. The `edges`
 
 ## Roadmap (near term)
 
+- Improved edge paths
 - In-place editing (add / delete / rename)
 - Edge rewire operations
 - Save back to file after interactive edits
