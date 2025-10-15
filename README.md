@@ -20,10 +20,9 @@
 - [Roadmap](#roadmap-near-term)
 - [Feature Requests](#feature-requests)
 - [Screenshots](#screenshots)
+- [Video](#video)
 
 `CosmoFlow` provides a fast and interactive way to explore node/edge data structures directly in your terminal. Whether you point it at a JSON/YAML file or use it programmatically, you can smoothly navigate large hierarchies and general graphs.
-
-![Demo animation](images/preview.gif)
 
 <img src="images/preview.png" alt="example" />
 
@@ -170,3 +169,7 @@ We appreciate your feedback and contributions to making `CosmoFlow` even better!
 | Colorschemes                                             | Graph Example                                              |
 | -------------------------------------------------------- | ---------------------------------------------------------- |
 | <img src="images/colorschemes.png" alt="colorschemes" /> | <img src="images/graph_example.png" alt="graph example" /> |
+
+## Video
+
+![Demo animation](images/preview.gif)
