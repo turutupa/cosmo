@@ -22,7 +22,7 @@
 - [Screenshots](#screenshots)
 - [Video](#video)
 
-`CosmoFlow` provides a fast and interactive way to explore node/edge data structures directly in your terminal. Whether you point it at a JSON/YAML file or use it programmatically, you can smoothly navigate large hierarchies and general graphs.
+`Cosmo` provides a fast and interactive way to explore node/edge data structures directly in your terminal. Whether you point it at a JSON/YAML file or use it programmatically, you can smoothly navigate large hierarchies and general graphs.
 
 <img src="images/preview.png" alt="example" />
 
@@ -38,7 +38,7 @@
 
 ### As a Package
 
-- **Programmatic API:** Integrate `CosmoFlow` into your own projects to render graphs and trees from your own data structures.
+- **Programmatic API:** Integrate `Cosmo` into your own projects to render graphs and trees from your own data structures.
 - **Customizable:** Pass in your own nodes and edges, and configure the appearance and behavior of the graph.
 
 ## Installation
@@ -102,7 +102,7 @@ Once the application is running, you can use the following keys to navigate:
 
 ## File Formats
 
-`CosmoFlow` accepts JSON or YAML files with the following structure:
+`Cosmo` accepts JSON or YAML files with the following structure:
 
 **JSON**
 
@@ -149,9 +149,9 @@ The `nodes` array should contain objects with an `id` and a `value`. The `edges`
 
 Have an idea for a new feature? We'd love to hear from you! The best way to suggest a new feature is to open an issue on our GitHub repository.
 
-When you open an issue, please provide a clear and detailed description of the feature you'd like to see. Explain why you think it would be a valuable addition to `CosmoFlow`, and if possible, provide a simple example of how it might work.
+When you open an issue, please provide a clear and detailed description of the feature you'd like to see. Explain why you think it would be a valuable addition to `Cosmo`, and if possible, provide a simple example of how it might work.
 
-We appreciate your feedback and contributions to making `CosmoFlow` even better!
+We appreciate your feedback and contributions to making `Cosmo` even better!
 
 ## Screenshots
 
