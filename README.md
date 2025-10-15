@@ -173,4 +173,4 @@ We appreciate your feedback and contributions to making `Cosmo` even better!
 
 ## Video
 
-![Demo animation](images/preview.gif)
+![Demo animation](https://raw.githubusercontent.com/turutupa/cosmo/refs/heads/main/images/preview.gif)
