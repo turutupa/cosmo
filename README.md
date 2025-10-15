@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/cosmo_banner.png" alt="file explorer" />
+  <img src="images/banner.png" alt="file explorer" />
 </p>
 
 <h1 align="center">CosmoFlow</h1>
