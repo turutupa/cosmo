@@ -1,6 +1,6 @@
 <p align="center">
   <p align="center">
-  <img src="images/banner.png" alt="Cosmo banner" style="object-fit:cover; width:100%; height:300px; object-position:center;">
+  <img src="https://raw.githubusercontent.com/turutupa/cosmo/refs/heads/main/images/banner.png" alt="Cosmo banner" style="object-fit:cover; width:100%; height:300px; object-position:center;">
 </p>
 </p>
 
@@ -24,7 +24,7 @@
 
 `Cosmo` provides a fast and interactive way to explore node/edge data structures directly in your terminal. Whether you point it at a JSON/YAML file or use it programmatically, you can smoothly navigate large hierarchies and general graphs.
 
-<img src="images/preview.png" alt="example" />
+<img src="https://raw.githubusercontent.com/turutupa/cosmo/refs/heads/main/images/preview.png" alt="example" />
 
 ## Features
 
@@ -155,21 +155,21 @@ We appreciate your feedback and contributions to making `Cosmo` even better!
 
 ## Screenshots
 
-| Main Menu                                          | Keybindings                                            |
-| -------------------------------------------------- | ------------------------------------------------------ |
-| <img src="images/main_menu.png" alt="main menu" /> | <img src="images/keybindings.png" alt="keybindings" /> |
+| Main Menu                                                                                                           | Keybindings                                                                                                             |
+| ------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| <img src="https://raw.githubusercontent.com/turutupa/cosmo/refs/heads/main/images/main_menu.png" alt="main menu" /> | <img src="https://raw.githubusercontent.com/turutupa/cosmo/refs/heads/main/images/keybindings.png" alt="keybindings" /> |
 
-| File Explorer                                              | Export                                       |
-| ---------------------------------------------------------- | -------------------------------------------- |
-| <img src="images/file_explorer.png" alt="file explorer" /> | <img src="images/export.png" alt="export" /> |
+| File Explorer                                                                                                               | Export                                                                                                        |
+| --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| <img src="https://raw.githubusercontent.com/turutupa/cosmo/refs/heads/main/images/file_explorer.png" alt="file explorer" /> | <img src="https://raw.githubusercontent.com/turutupa/cosmo/refs/heads/main/images/export.png" alt="export" /> |
 
-| Search                                       | Nodes/Edges Highlighting                       |
-| -------------------------------------------- | ---------------------------------------------- |
-| <img src="images/search.png" alt="search" /> | <img src="images/preview.png" alt="preview" /> |
+| Search                                                                                                        | Nodes/Edges Highlighting                                                                                        |
+| ------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| <img src="https://raw.githubusercontent.com/turutupa/cosmo/refs/heads/main/images/search.png" alt="search" /> | <img src="https://raw.githubusercontent.com/turutupa/cosmo/refs/heads/main/images/preview.png" alt="preview" /> |
 
-| Colorschemes                                             | Graph Example                                              |
-| -------------------------------------------------------- | ---------------------------------------------------------- |
-| <img src="images/colorschemes.png" alt="colorschemes" /> | <img src="images/graph_example.png" alt="graph example" /> |
+| Colorschemes                                                                                                              | Graph Example                                                                                                               |
+| ------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| <img src="https://raw.githubusercontent.com/turutupa/cosmo/refs/heads/main/images/colorschemes.png" alt="colorschemes" /> | <img src="https://raw.githubusercontent.com/turutupa/cosmo/refs/heads/main/images/graph_example.png" alt="graph example" /> |
 
 ## Video
 
