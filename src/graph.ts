@@ -187,16 +187,18 @@ export default class Graph {
     const nodeWidth = this.props.nodeWidth;
     const nodeHeight = 6;
 
+    const layoutOptions = {
+      "elk.algorithm": "mrtree",
+      "elk.direction": "DOWN",
+      "elk.spacing.nodeNode": "6",
+      "elk.edgeRouting": "ORTHOGONAL",
+    };
+
     // create elk graph
     const elk = new ELK();
     const elkGraph = {
       id: "root",
-      layoutOptions: {
-        "elk.algorithm": "mrtree", // try mrtree if not rendering nicely
-        "elk.direction": "DOWN",
-        "elk.spacing.nodeNode": "6",
-        "elk.edgeRouting": "ORTHOGONAL",
-      },
+      layoutOptions,
       children: this.props.nodes.map((node) => ({
         id: node.id,
         width: nodeWidth,

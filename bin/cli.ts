@@ -43,6 +43,13 @@ async function main() {
       console.error(`\n❌ File not found: ${filePath}\n`);
       process.exit(1);
     }
+
+    const fileExtension = path.extname(filePath);
+    if (![".json", ".yaml", ".yml"].includes(fileExtension)) {
+      console.error(`\n❌ Invalid file type: ${fileExtension}\n`);
+      console.error(`Please provide a .json, .yaml, or .yml file.`);
+      process.exit(1);
+    }
   }
 
   const colorscheme = cli.flags.colorscheme as Colorscheme;

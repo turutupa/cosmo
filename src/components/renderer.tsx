@@ -167,8 +167,7 @@ const Renderer: React.FC<Props> = ({
           target={graph.getElement(edge.target) as TNode}
           cursor={graph.cursor}
           isFocused={
-            !!focusedNode &&
-            (focusedNode.id === edge.source || focusedNode.id === edge.target)
+            focusedNode?.id === edge.source || focusedNode?.id === edge.target
           }
         />
       )) || []

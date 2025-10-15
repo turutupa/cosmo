@@ -1,5 +1,5 @@
 {
-  "name": "react-curse-app",
+  "name": "cosmo-flow",
   "version": "1.0.0",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
@@ -22,11 +22,6 @@
     },
     "./cli": {
       "require": "./dist/cjs/cli.cjs"
-    }
-  },
-  "overrides": {
-    "dist/cli.js": {
-      "type": "commonjs"
     }
   },
   "dependencies": {

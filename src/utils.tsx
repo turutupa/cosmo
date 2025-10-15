@@ -123,18 +123,18 @@ function charForSegment(
     if (fromVert && toHoriz && prev.y < current.y && current.x > next.x)
       return "┘";
     if (fromVert && toHoriz && prev.y > current.y && current.x < next.x)
-      return "┐";
-    if (fromVert && toHoriz && prev.y > current.y && current.x > next.x)
       return "┌";
+    if (fromVert && toHoriz && prev.y > current.y && current.x > next.x)
+      return "┐";
 
     if (fromHoriz && toVert && prev.x > current.x && current.y < next.y)
       return "┌";
     if (fromHoriz && toVert && prev.x < current.x && current.y < next.y)
       return "┐";
     if (fromHoriz && toVert && prev.x > current.x && current.y > next.y)
-      return "┘";
-    if (fromHoriz && toVert && prev.x < current.x && current.y > next.y)
       return "└";
+    if (fromHoriz && toVert && prev.x < current.x && current.y > next.y)
+      return "┘";
   }
 
   // Fallback
