@@ -161,6 +161,10 @@ We appreciate your feedback and contributions to making `CosmoFlow` even better!
 | ---------------------------------------------------------- | -------------------------------------------- |
 | <img src="images/file_explorer.png" alt="file explorer" /> | <img src="images/export.png" alt="export" /> |
 
+| Search                                       | Nodes/Edges Highlighting                       |
+| -------------------------------------------- | ---------------------------------------------- |
+| <img src="images/search.png" alt="search" /> | <img src="images/preview.png" alt="preview" /> |
+
 | Colorschemes                                             | Graph Example                                              |
 | -------------------------------------------------------- | ---------------------------------------------------------- |
 | <img src="images/colorschemes.png" alt="colorschemes" /> | <img src="images/graph_example.png" alt="graph example" /> |
