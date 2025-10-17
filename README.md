@@ -145,6 +145,10 @@ The `nodes` array should contain objects with an `id` and a `value`. The `edges`
 - Layout options (horizontal / vertical / layered)
 - Export to SVG / PNG
 
+## Acknowledgements
+
+This project was created using the react-curse library — many thanks to its author for enabling the terminal UI foundations used here. See: https://github.com/infely/react-curse
+
 ## Feature Requests
 
 Have an idea for a new feature? We'd love to hear from you! The best way to suggest a new feature is to open an issue on our GitHub repository.
